@@ -1,36 +1,27 @@
-import { parse as parseYAML } from 'https://esm.sh/yaml@2.3.1';
 import { POSTS_PATH } from './config.ts';
 import { renderTemplate } from './render-template.ts';
 
-// Get the global metadata
-const globalMeta = await Deno.readTextFile(`./index.yaml`)
-  .then((yml) => {
-    return parseYAML(yml);
-  })
-  .catch(() => ({}));
-
 export async function getPost(path: string) {
   // Get the post metadata
-  const meta = await Deno.readTextFile(path + 'meta.yaml').then((yml) => {
-    return parseYAML(yml);
-  });
+  const model = await import(path + 'model.ts');
+
+  const data =
+    typeof model?.default === 'function' ? model.default() : model.default;
 
   // If the post is a draft, skip it
-  if (!meta.published) {
-    return null;
-  }
+  if (!data.meta?.published) return null;
 
   // Add the post to the index
   const slug = path.replace(POSTS_PATH, '');
 
+  const props = { slug, ...data };
+
   // Cache static HTML of the post
   const html = await renderTemplate(
     'post',
-    {
-      meta: { ...globalMeta, ...meta },
-    },
+    props,
     await Deno.readTextFile(path + 'content.md')
   );
 
-  return { slug, meta, html };
+  return { html, ...props };
 }

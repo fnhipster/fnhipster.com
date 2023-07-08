@@ -4,11 +4,9 @@ export const POSTS_PATH = Deno.cwd() + '/posts';
 export const TEMPLATES_PATH = Deno.cwd() + '/templates';
 export const BUILD_PATH = Deno.cwd() + '/.mdly';
 
-export interface Post {
+export interface Meta {
   title: string;
-  date: string;
+  date: Date;
   published: boolean;
   description: string;
-  tags: string[];
-  __html: string;
 }

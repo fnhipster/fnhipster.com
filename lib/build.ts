@@ -1,5 +1,5 @@
 import { copy } from 'https://deno.land/std@0.193.0/fs/copy.ts';
-import { POSTS_PATH, BUILD_PATH, PUBLIC_PATH, Post } from './config.ts';
+import { POSTS_PATH, BUILD_PATH, PUBLIC_PATH, Meta } from './config.ts';
 import { getPost } from './post.ts';
 
 // Remove old build if exists
@@ -9,10 +9,13 @@ try {
   //
 }
 
+// create the directory
+await Deno.mkdir(`${BUILD_PATH}`, { recursive: true });
+
 // Get all the posts
 console.group('📝 Caching posts');
 
-const posts: Post[] = [];
+const posts: Array<Meta & { slug: string }> = [];
 
 async function buildPosts(_path: string) {
   const postsFiles = Deno.readDir(_path);
@@ -23,16 +26,15 @@ async function buildPosts(_path: string) {
       continue;
     }
 
-    // Get the post metadata
-    const path = `${_path}/${postFile.name}/`;
+    // Get the Post
+    // (add trailing slash if missing)
+    const path = `${_path.replace(/\/?$/, '/')}${postFile.name}/`;
 
     const post = await getPost(path);
 
-    if (!post) {
-      continue;
-    }
+    if (!post) continue;
 
-    const { slug, meta, html } = post;
+    const { slug, html, meta } = post;
 
     posts.push({ slug, ...meta });
 
