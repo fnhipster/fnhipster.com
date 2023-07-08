@@ -40,3 +40,5 @@ console.group('📁 Copying static files');
 await copy(PUBLIC_PATH, BUILD_PATH + '/public', { overwrite: true });
 
 console.groupEnd();
+
+console.log('✅ Build complete!');
