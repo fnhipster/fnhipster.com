@@ -1,6 +1,6 @@
 import { copy } from 'https://deno.land/std@0.193.0/fs/copy.ts';
-import { POSTS_PATH, BUILD_PATH, PUBLIC_PATH, Meta } from './config.ts';
-import { getPost } from './post.ts';
+import { BUILD_PATH, PUBLIC_PATH } from './config.ts';
+import { getPagesIndex } from './index.ts';
 
 // Remove old build if exists
 try {
@@ -12,62 +12,25 @@ try {
 // create the directory
 await Deno.mkdir(`${BUILD_PATH}`, { recursive: true });
 
-// Get all the posts
-console.group('📝 Caching posts');
+// Get all the pages
+console.group('📝 Building pages');
 
-const posts: Array<Meta & { slug: string }> = [];
+const index = await getPagesIndex();
 
-async function buildPosts(_path: string) {
-  const postsFiles = Deno.readDir(_path);
+index.forEach(async ({ html, meta }) => {
+  console.log(`+ ${meta.slug}`);
 
-  for await (const postFile of postsFiles) {
-    // If it's not a directory, skip it
-    if (!postFile.isDirectory) {
-      continue;
-    }
+  // create the directory
+  await Deno.mkdir(`${BUILD_PATH}/public${meta.slug}`, { recursive: true });
 
-    // Get the Post
-    // (add trailing slash if missing)
-    const path = `${_path.replace(/\/?$/, '/')}${postFile.name}/`;
-
-    const post = await getPost(path);
-
-    if (!post) continue;
-
-    const { slug, html, meta } = post;
-
-    posts.push({ slug, ...meta });
-
-    console.log(`+ ${slug}`);
-
-    // Cache static HTML of the post
-
-    // create the directory
-    await Deno.mkdir(`${BUILD_PATH}/public${slug}`, { recursive: true });
-
-    await Deno.writeTextFile(`${BUILD_PATH}/public${slug}/index.html`, html, {
+  await Deno.writeTextFile(
+    `${BUILD_PATH}/public${meta.slug}/index.html`,
+    html,
+    {
       create: true,
-    });
-
-    // Recursively get sub posts
-    await buildPosts(path);
-  }
-}
-
-// Get all the posts
-await buildPosts(POSTS_PATH);
-
-// Sort posts by date
-const sortedPosts = posts.sort((a, b) => {
-  return new Date(b.date).getTime() - new Date(a.date).getTime();
+    }
+  );
 });
-
-// Write file with all the metadata
-await Deno.writeTextFile(
-  `${BUILD_PATH}/posts.json`,
-  JSON.stringify(sortedPosts, null, 2),
-  { create: true }
-);
 
 console.groupEnd();
 
