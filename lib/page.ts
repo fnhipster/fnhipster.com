@@ -44,7 +44,13 @@ export async function getPage(path: string) {
   // Add the page to the index
   const slug = path.replace(PAGES_PATH, '');
 
-  const props = { ...data, meta: { slug, ...data?.meta } };
+  const props = {
+    ...data,
+    meta: {
+      slug: slug === '/index/' ? '/' : slug,
+      ...data?.meta,
+    },
+  };
 
   const html = await renderTemplate(
     template,
