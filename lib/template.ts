@@ -6,6 +6,7 @@ import { marked } from 'https://esm.sh/marked@5.1.1';
 import { markedHighlight } from 'https://esm.sh/marked-highlight@2.0.1';
 import hljs from 'https://esm.sh/highlight.js@11.8.0';
 import { PAGES_PATH } from './config.ts';
+import { readAll } from 'https://deno.land/std@0.137.0/streams/conversion.ts';
 
 // Check if app template exists
 await Deno.open(`${PAGES_PATH}/template.ejs`).catch(() => {
@@ -44,5 +45,5 @@ export async function renderTemplate(
           __content,
         })
       : __content,
-  });
+  }).then(readAll);
 }
