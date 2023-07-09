@@ -29,7 +29,7 @@ export async function renderTemplate(
   data: Record<string, unknown>,
   markdown?: string
 ) {
-  const __html = markdown
+  const __content = markdown
     ? await marked.parse(markdown, {
         headerIds: false,
         mangle: false,
@@ -38,11 +38,11 @@ export async function renderTemplate(
 
   return renderEJSFile(`${PAGES_PATH}/template.ejs`, {
     ...data,
-    __html: template
+    __content: template
       ? await renderEJS(template, {
           ...data,
-          __html,
+          __content,
         })
-      : __html,
+      : __content,
   });
 }
