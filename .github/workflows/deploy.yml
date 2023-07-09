@@ -23,7 +23,7 @@ jobs:
           deno-version: 1.35.0
 
       - name: Build
-        run: deno run build
+        run: deno task build
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
