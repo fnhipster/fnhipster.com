@@ -1,5 +1,5 @@
 import { PAGES_PATH } from './config.ts';
-import { renderLayout } from './layout.ts';
+import { renderTemplate } from './template.ts';
 import { flattenObject } from './utils.ts';
 
 export async function getPage(path: string) {
@@ -36,16 +36,18 @@ export async function getPage(path: string) {
     }
   });
 
-  // Get layout
-  const layout = await Deno.readTextFile(path + 'layout.ejs').catch(() => null);
+  // Get template
+  const template = await Deno.readTextFile(path + 'template.ejs').catch(
+    () => null
+  );
 
   // Add the page to the index
   const slug = path.replace(PAGES_PATH, '');
 
   const props = { ...data, meta: { slug, ...data?.meta } };
 
-  const html = await renderLayout(
-    layout,
+  const html = await renderTemplate(
+    template,
     { __script, __style, ...props },
     markdown ?? ''
   );

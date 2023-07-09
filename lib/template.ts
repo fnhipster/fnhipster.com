@@ -7,6 +7,12 @@ import { markedHighlight } from 'https://esm.sh/marked-highlight@2.0.1';
 import hljs from 'https://esm.sh/highlight.js@11.8.0';
 import { PAGES_PATH } from './config.ts';
 
+// Check if app template exists
+await Deno.open(`${PAGES_PATH}/template.ejs`).catch(() => {
+  console.error(`😱 App template not found at "${PAGES_PATH}/template.ejs".`);
+  Deno.exit(1);
+});
+
 // Marked Extensions
 marked.use(
   markedHighlight({
@@ -18,8 +24,8 @@ marked.use(
   })
 );
 
-export async function renderLayout(
-  layout: string | null,
+export async function renderTemplate(
+  template: string | null,
   data: Record<string, unknown>,
   markdown?: string
 ) {
@@ -30,15 +36,13 @@ export async function renderLayout(
       })
     : null;
 
-  return renderEJSFile(`${PAGES_PATH}/layout.ejs`, {
+  return renderEJSFile(`${PAGES_PATH}/template.ejs`, {
     ...data,
-    __html: layout
-      ? await renderEJS(layout, {
+    __html: template
+      ? await renderEJS(template, {
           ...data,
           __html,
         })
       : __html,
   });
 }
-
-// TODO: recursive layouts
