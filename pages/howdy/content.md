@@ -2,8 +2,6 @@
 
 Let's do some writing.
 
-{{variable}}
-
 <form id="soy-form">
     <button type="submit">Hola</button>
 </form>
@@ -11,5 +9,3 @@ Let's do some writing.
 ```ts
 const hola: string = 'Hola';
 ```
-
-carlos@fnhipster.com
