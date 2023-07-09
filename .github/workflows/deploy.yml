@@ -18,11 +18,15 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build step
-        run: deno run build
+        uses: denoland/deployctl@v1
+        with:
+          project: "deep-pike-64"
+          entrypoint: "lib/build.ts"
+          root: "." 
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "deep-pike-64"
-          entrypoint: "lib/start.ts" # 📝 Update the entrypoint
-          root: "."
+          entrypoint: "lib/start.ts"
+          root: "." 
