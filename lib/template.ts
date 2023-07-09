@@ -1,7 +1,7 @@
 import {
   renderFile as renderEJSFile,
   render as renderEJS,
-} from 'https://esm.sh/ejs@3.1.9';
+} from 'https://deno.land/x/dejs@0.10.3/mod.ts';
 import { marked } from 'https://esm.sh/marked@5.1.1';
 import { markedHighlight } from 'https://esm.sh/marked-highlight@2.0.1';
 import hljs from 'https://esm.sh/highlight.js@11.8.0';
