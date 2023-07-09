@@ -1,5 +1,6 @@
 import { PAGES_PATH } from './config.ts';
 import { renderLayout } from './layout.ts';
+import { flattenObject } from './utils.ts';
 
 export async function getPage(path: string) {
   // Check if the folder exists
@@ -13,9 +14,9 @@ export async function getPage(path: string) {
   const model = await import(path + 'model.ts').catch(() => ({}));
 
   const data =
-    typeof model?.default === 'function'
+    (typeof model?.default === 'function'
       ? await model.default()
-      : model.default;
+      : model.default) || {};
 
   // Get script
   const __script = await Deno.readTextFile(path + 'script.js').catch(
@@ -26,9 +27,14 @@ export async function getPage(path: string) {
   const __style = await Deno.readTextFile(path + 'style.css').catch(() => null);
 
   // Get content
-  const markdown = await Deno.readTextFile(path + 'content.md').catch(
-    () => null
-  );
+  let markdown = await Deno.readTextFile(path + 'content.md').catch(() => null);
+
+  // Replace variables in markdown
+  Object.entries(flattenObject(data)).forEach(([key, value]) => {
+    if (markdown) {
+      markdown = markdown.replace(new RegExp(`@{${key}}`, 'g'), value as any);
+    }
+  });
 
   // Get layout
   const layout = await Deno.readTextFile(path + 'layout.ejs').catch(() => null);
