@@ -32,7 +32,10 @@ export async function getPage(path: string) {
   // Replace variables in markdown
   Object.entries(flattenObject(data)).forEach(([key, value]) => {
     if (markdown) {
-      markdown = markdown.replace(new RegExp(`@{${key}}`, 'g'), value as any);
+      markdown = markdown.replace(
+        new RegExp(`@{${key}}`, 'g'),
+        `<span data-binding="${key}">${value}</span>`
+      );
     }
   });
 

@@ -1,6 +1,10 @@
 {
   "version": "2",
   "remote": {
+    "https://cdn.jsdelivr.net/npm/ejs@3.1.9/+esm": "158267b1dd22b80ab5cfa67a79b47872ed079b23e307cb2fe3cbcb7455792a3f",
+    "https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/+esm": "85b44de1ed933d63c34e230a047d55cd62fc9fe719aaa52ec8c805b59b1eb4a9",
+    "https://cdn.jsdelivr.net/npm/marked-highlight@2.0.1/+esm": "44fef240941c473884da3b6cf633d2a370841d9ae57a0d1a684554ed792f439b",
+    "https://cdn.jsdelivr.net/npm/marked@5.1.1/+esm": "9c93178a25e6d2b82a239b64f4c436ebd2f4b5e1308122b9453833067f56f10a",
     "https://deno.land/std@0.193.0/_util/asserts.ts": "178dfc49a464aee693a7e285567b3d0b555dc805ff490505a8aae34f9cfb1462",
     "https://deno.land/std@0.193.0/_util/os.ts": "d932f56d41e4f6a6093d56044e29ce637f8dcc43c5a90af43504a889cf1775e3",
     "https://deno.land/std@0.193.0/fs/_util.ts": "fbf57dcdc9f7bc8128d60301eece608246971a7836a3bb1e78da75314f08b978",
