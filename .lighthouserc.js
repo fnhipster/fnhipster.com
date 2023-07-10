@@ -2,7 +2,6 @@ module.exports = {
   ci: {
     collect: {
       numberOfRuns: 1,
-      url: [process.env.URL],
       settings: {
         onlyCategories: [
           'performance',
