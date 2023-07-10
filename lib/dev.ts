@@ -49,7 +49,7 @@ async function handler(request: Request): Promise<Response> {
   try {
     const { pathname } = url;
 
-    const slug = pathname.replace(/\/$/, '');
+    const slug = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
 
     const page = index.find((page) => page.meta.slug === slug);
 
