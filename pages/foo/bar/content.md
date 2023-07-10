@@ -6,3 +6,5 @@ Hi @{name}, this is a test post. It is @{time}
 - object: @{deep}
 - function: @{method}
 - boolean: @{deep.in.sea}
+- string: @{deep.in.deeper}
+- async: @{external}

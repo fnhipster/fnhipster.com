@@ -1,7 +1,8 @@
 import { serve } from 'https://deno.land/std@0.193.0/http/server.ts';
 import { serveDir } from 'https://deno.land/std@0.193.0/http/file_server.ts';
 import { getPagesIndex } from './index.ts';
-import { PORT, PUBLIC_PATH, PAGES_PATH } from './config.ts';
+import { PORT, PAGES_PATH } from './config.ts';
+import { reset } from 'https://deno.land/std@0.193.0/fmt/colors.ts';
 
 // Initial Index
 let index = await getPagesIndex();
@@ -27,17 +28,39 @@ setTimeout(async () => {
 }, 0);
 
 async function handler(request: Request): Promise<Response> {
+  const url = new URL(request.url);
+
+  // Redirect to trailing slash
+  if (
+    !/\.[a-zA-Z0-9]{1,4}$/.test(url.pathname) &&
+    !url.pathname.endsWith('/')
+  ) {
+    url.pathname += '/';
+
+    // redirect to trailing slash
+    return new Response(null, {
+      status: 301,
+      headers: {
+        location: url.toString(),
+      },
+    });
+  }
+
   try {
-    const pathname = new URL(request.url).pathname
-      // add trailing slash
-      .replace(/\/?$/, '/');
+    const { pathname } = url;
 
-    const page = index.find((page) => page.meta.slug === pathname);
+    const slug = pathname.replace(/\/$/, '');
 
+    const page = index.find((page) => page.meta.slug === slug);
+
+    // Return static assets
+    if (/(.*\/assets\/.*)/.test(pathname)) {
+      return await serveDir(request, { fsRoot: PAGES_PATH });
+    }
+
+    // Not found
     if (!page) {
-      return await serveDir(request, {
-        fsRoot: PUBLIC_PATH,
-      });
+      throw new Deno.errors.NotFound();
     }
 
     serverLog(request, 200);
