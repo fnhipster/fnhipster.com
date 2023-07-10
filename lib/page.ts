@@ -45,20 +45,23 @@ export async function getPage(path: string) {
   );
 
   // Add the page to the index
-  const slug = path.replace(PAGES_PATH, '');
+  const relativePath = path.replace(PAGES_PATH, '');
+  const slug = relativePath === '/index/' ? '/' : relativePath;
 
   const props = {
     ...data,
     meta: {
-      slug: slug === '/index/' ? '/' : slug,
+      slug,
       ...data?.meta,
     },
   };
 
+  const scope = slug === '/' ? slug : slug.replace(/\/$/, '');
+
   const html = await renderTemplate(
     template,
     { __script, __style, ...props },
-    markdown ?? ''
+    markdown ? `<div data-scope="${scope}">${markdown}</div>` : ''
   );
 
   return { html, ...props };

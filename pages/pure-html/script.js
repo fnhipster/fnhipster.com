@@ -1,30 +1,17 @@
-const $bindings = document.querySelectorAll('[data-binding]');
+import { createState, getPageScope } from '/scripts/mdly.js';
 
-const initialState = {
-  one: 'one',
-  two: 'two',
-};
+const scope = getPageScope('pure-html');
 
-const state = new Proxy(initialState, {
-  set: (target, key, value) => {
-    target[key] = value;
-
-    Array.from($bindings).find((node) => {
-      return node.dataset.binding === key;
-    }).textContent = value;
-
-    return true;
+const state = createState(
+  {
+    one: 'one',
+    two: 'two',
   },
-});
-
-// Initial bindings
-$bindings.forEach(($binding) => {
-  const key = $binding.dataset.binding;
-  $binding.textContent = state[key];
-});
+  scope
+);
 
 // Form
-const $form = document.querySelector('form');
+const $form = scope.querySelector('form');
 
 $form.addEventListener('submit', (e) => {
   e.preventDefault();
