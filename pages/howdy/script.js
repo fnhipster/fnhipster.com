@@ -1,6 +1,8 @@
-const $soy = document.querySelector('#soy-form');
+function init() {
+  const $soy = document.querySelector('#soy-form');
 
-$soy.addEventListener('submit', (event) => {
-  event.preventDefault();
-  alert('Submitted!');
-});
+  $soy.addEventListener('submit', (event) => {
+    event.preventDefault();
+    alert('Submitted!');
+  });
+}

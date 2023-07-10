@@ -23,6 +23,10 @@ export async function getPage(path: string) {
     () => null
   );
 
+  const __clientjs = await Deno.readTextFile('./lib/client.js').catch(
+    () => null
+  );
+
   // Get styles
   const __style = await Deno.readTextFile(path + 'style.css').catch(() => null);
 
@@ -56,12 +60,10 @@ export async function getPage(path: string) {
     },
   };
 
-  const scope = slug === '/' ? slug : slug.replace(/\/$/, '');
-
   const html = await renderTemplate(
     template,
-    { __script, __style, ...props },
-    markdown ? `<div data-scope="${scope}">${markdown}</div>` : ''
+    { __script, __clientjs, __style, ...props },
+    markdown ? markdown : ''
   );
 
   return { html, ...props };

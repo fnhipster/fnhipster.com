@@ -1,18 +1,11 @@
-import { createState, getPageScope } from '/scripts/mdly.js';
-
-const scope = getPageScope('/');
-
-console.log(scope);
-
-const state = createState(
-  {
+function init(page, { createState }) {
+  const state = createState({
     count: 0,
-  },
-  scope
-);
+  });
 
-const $button = scope.querySelector('#count');
+  const $button = page.querySelector('#count');
 
-$button.addEventListener('click', () => {
-  state.count += 1;
-});
+  $button.addEventListener('click', () => {
+    state.count += 1;
+  });
+}
