@@ -1,29 +1,26 @@
+import { walk } from 'https://deno.land/std@0.78.0/fs/walk.ts';
 import { Meta, PAGES_PATH } from './config.ts';
 import { getPage } from './page.ts';
 
-export async function getPagesIndex(_path = PAGES_PATH) {
-  const pages: { html: string; meta: Meta }[] = [];
+export async function getPagesIndex() {
+  const pages: { html: string; meta: Meta; assets: boolean }[] = [];
 
-  async function recursiveIndexPages(_path: string) {
-    for await (const entry of Deno.readDir(_path)) {
-      // If it's not a directory, skip it
-      if (!entry.isDirectory) continue;
+  for await (const entry of walk(PAGES_PATH, {
+    includeFiles: false,
+    includeDirs: true,
+    skip: [/\/assets$/],
+  })) {
+    // Skip root
+    if (entry.path === PAGES_PATH) continue;
 
-      const path = `${_path.replace(/\/?$/, '/')}${entry.name}/`;
+    // Get page data
+    const page = await getPage(entry.path);
 
-      const page = await getPage(path);
+    // If not page, skip it
+    if (!page) continue;
 
-      // If not page, skip it
-      if (!page) continue;
-
-      pages.push({ ...page });
-
-      // Recursively get sub pages
-      await recursiveIndexPages(path);
-    }
+    pages.push({ ...page });
   }
-
-  await recursiveIndexPages(_path);
 
   return pages.sort((a, b) => {
     if (!a.meta.date || !b.meta.date) return 0;

@@ -14,8 +14,13 @@ export default () => {
     deep: {
       in: {
         sea: true,
-        deeper: false,
+        deeper: 'false',
       },
     },
+
+    external: async () =>
+      await fetch('https://baconipsum.com/api/?type=meat-and-filler')
+        .then((res) => res.json())
+        .then((res) => res[0]),
   };
 };

@@ -5,16 +5,15 @@
     <title><%= meta.title %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="description" content="<%= meta.description %>" />
-    <link rel="icon" href="/favicon.png" />
+    <link rel="icon" href="/assets/favicon.png" />
 
     <link
       rel="stylesheet"
-      href="/styles/code.css"
+      href="/assets/styles/code.css"
       media="print"
       onload="this.media='all'"
     />
 
-    <!-- Styles -->
     <% if (__style) { %>
     <style>
       <%- __style %>
@@ -29,10 +28,8 @@
       <a href="/foo/bar">FooBar</a>
     </nav>
 
-    <!-- HTML -->
     <div data-scope="content"><%- __content %></div>
 
-    <!-- Client-Side Script -->
     <% if (__script) { %>
     <script type="module">
       <%- __script %>
