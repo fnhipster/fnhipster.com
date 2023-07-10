@@ -23,6 +23,10 @@ export async function getPage(path: string) {
     () => null
   );
 
+  const __clientjs = await Deno.readTextFile('./lib/client.js').catch(
+    () => null
+  );
+
   // Get styles
   const __style = await Deno.readTextFile(path + 'style.css').catch(() => null);
 
@@ -45,20 +49,21 @@ export async function getPage(path: string) {
   );
 
   // Add the page to the index
-  const slug = path.replace(PAGES_PATH, '');
+  const relativePath = path.replace(PAGES_PATH, '');
+  const slug = relativePath === '/index/' ? '/' : relativePath;
 
   const props = {
     ...data,
     meta: {
-      slug: slug === '/index/' ? '/' : slug,
+      slug,
       ...data?.meta,
     },
   };
 
   const html = await renderTemplate(
     template,
-    { __script, __style, ...props },
-    markdown ?? ''
+    { __script, __clientjs, __style, ...props },
+    markdown ? markdown : ''
   );
 
   return { html, ...props };

@@ -15,22 +15,29 @@
     />
 
     <!-- Styles -->
+    <% if (__style) { %>
     <style>
       <%- __style %>
     </style>
+    <% } %>
   </head>
   <body>
     <nav>
+      <h1 data-binding="count">0</h1>
       <a href="/howdy">Howdy</a>
       <a href="/foo">Foo</a>
       <a href="/foo/bar">FooBar</a>
     </nav>
-    <!-- HTML -->
-    <%- __content %>
 
-    <!-- Script -->
+    <!-- HTML -->
+    <div data-scope="content"><%- __content %></div>
+
+    <!-- Client-Side Script -->
+    <% if (__script) { %>
     <script type="module">
       <%- __script %>
+      <%- __clientjs %>
     </script>
+    <% } %>
   </body>
 </html>
