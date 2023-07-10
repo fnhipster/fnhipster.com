@@ -2,7 +2,7 @@ import {
   renderFile as renderEJSFile,
   render as renderEJS,
 } from 'https://esm.sh/v128/ejs@3.1.9';
-
+import { marked } from 'https://esm.sh/v128/marked@5.1.1';
 import { PAGES_PATH } from './config.ts';
 
 // Check if app template exists
