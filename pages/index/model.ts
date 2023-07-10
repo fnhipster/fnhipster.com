@@ -1,3 +1,6 @@
 export default {
-  count: 0,
+  meta: {
+    title: 'Home',
+    description: 'This is the home page.',
+  },
 };
