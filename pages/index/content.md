@@ -56,7 +56,14 @@ Here's an example:
 
 You can create a code block by indenting the text with four spaces or using triple backticks:
 
-```python
-def greet(name):
-    print(f"Hello, {name}!")
+```typescript
+const name: string = 'Hola';
+
+async function(url: string) {
+    try {
+        return await fetch(url);
+    } catch(error) {
+        return error.message;
+    }
+}
 ```

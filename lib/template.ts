@@ -3,7 +3,20 @@ import {
   render as renderEJS,
 } from 'https://esm.sh/v128/ejs@3.1.9';
 import { marked } from 'https://esm.sh/v128/marked@5.1.1';
+import { markedHighlight } from 'https://esm.sh/marked-highlight@2.0.1';
+import hljs from 'https://esm.sh/highlight.js@11.8.0';
 import { PAGES_PATH } from './config.ts';
+
+// Marked Extensions
+marked.use(
+  markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code: string, lang: string) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, { language }).value;
+    },
+  })
+);
 
 // Check if app template exists
 await Deno.open(`${PAGES_PATH}/template.ejs`).catch(() => {
