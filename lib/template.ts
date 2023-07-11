@@ -31,24 +31,36 @@ marked.use({
       const url = new URL(href, import.meta.url);
       const width = Number(url.searchParams.get('width')) || undefined;
       const height = Number(url.searchParams.get('height')) || undefined;
+      const quality = Number(url.searchParams.get('quality')) || 80;
+      const mode = (url.searchParams.get('mode') || 'crop') as 'crop';
+      const lazy = url.searchParams.get('lazy') === 'true';
 
       if (!href.startsWith('/') || !width) {
         return `<img src="${href}" alt="${alt}" title="${title}" />`;
       }
 
       const src = getResizedImageURL(url.pathname, {
-        width: width,
-        height: height,
+        width,
+        height,
       });
 
       processImage(url.pathname, {
-        width: width,
-        height: height,
+        width,
+        height,
+        quality,
+        mode,
       });
 
-      return `<img src="${src}" alt="${alt}" title="${title}" width="${width}" height="${
-        height || ''
-      }" />`;
+      let img = '<img';
+      img += ` src="${src}"`;
+      img += ` alt="${alt}"`;
+      img += ` title="${title}"`;
+      img += ` width="${width}"`;
+      img += ` height="${height || ''}"`;
+      img += lazy ? ' loading="lazy"' : '';
+      img += ' />';
+
+      return img;
     },
   },
 });

@@ -1,6 +1,14 @@
 import { exists, ensureDir } from 'https://deno.land/std@0.78.0/fs/mod.ts';
-import { resize } from 'https://deno.land/x/deno_image@0.0.4/mod.ts';
+import {
+  ImageMagick,
+  initializeImageMagick,
+  MagickFormat,
+  MagickGeometry,
+} from 'https://deno.land/x/imagemagick_deno@0.0.14/mod.ts';
 import { PAGES_PATH, BUILD_PATH } from './config.ts';
+
+// Initialize ImageMagick
+await initializeImageMagick();
 
 export function getResizedImageURL(
   path: string,
@@ -15,22 +23,21 @@ export function getResizedImageURL(
   if (!width) return path;
 
   const filename = path.split('/').pop() as string;
-  const extension = filename.split('.').pop() as string;
+  const ext = filename.split('.').pop() as string;
 
-  return path.replace(
-    extension,
-    `${width}${height ? 'x' + height : ''}.${extension}`
-  );
+  return path.replace(ext, `${width}${height ? 'x' + height : ''}.webp`);
 }
 
 export async function processImage(
   filepath: string,
   options: {
-    width?: number;
+    width: number;
     height?: number;
+    mode?: 'resize' | 'crop';
+    quality?: number;
   }
 ) {
-  const { width, height } = options;
+  const { width = 0, height = 0, mode = 'crop', quality = 80 } = options;
 
   const origin = `${PAGES_PATH}${filepath}`;
 
@@ -42,9 +49,6 @@ export async function processImage(
   // skip if origin doesn't exist
   if (!(await exists(origin))) return;
 
-  // skip if destination already exists
-  if (await exists(destination)) return;
-
   const filename = filepath.match(/\/([^\/]+)$/)?.[1];
 
   if (!filename) throw new Error('Filename not found');
@@ -55,9 +59,31 @@ export async function processImage(
   // get the original image
   const image = await Deno.readFile(origin);
 
-  // resize image
-  const resized = await resize(image, { width, height, aspectRatio: !height });
+  // optimized image
+  const sizingData = new MagickGeometry(width, height);
 
-  // write the processed images
-  await Deno.writeFile(destination, resized);
+  sizingData.ignoreAspectRatio = height > 0 && width > 0;
+  sizingData.fillArea = mode === 'crop';
+
+  ImageMagick.read(image, (mod) => {
+    mod.quality = quality;
+    mod.format = MagickFormat.Webp;
+
+    if (mode === 'resize') {
+      mod.resize(sizingData);
+    } else {
+      // Resize the image
+      sizingData.ignoreAspectRatio = false;
+      mod.resize(sizingData);
+      // Adjust geometry offset to center of image
+      sizingData.y = mod.height / 2 - height / 2;
+      sizingData.x = mod.width / 2 - width / 2;
+
+      // Crop the image
+      mod.crop(sizingData);
+    }
+
+    // write the processed images
+    mod.write((resized) => Deno.writeFile(destination, resized));
+  });
 }

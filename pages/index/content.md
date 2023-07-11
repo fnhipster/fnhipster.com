@@ -1,4 +1,4 @@
-![Poster Image](/assets/placeholder.jpg?width=900&height=300)
+![Poster Image](/assets/placeholder.jpg?width=900&height=600)
 
 # My Markdown Example
 
