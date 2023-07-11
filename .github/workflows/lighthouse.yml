@@ -27,10 +27,6 @@ jobs:
         with:
           deno-version: 1.35.0
 
-      - name: Build and Start Server
-        run: |
-          deno task build && deno task start
-
       - name: Run Lighthouse
         run: lhci autorun
         env:
