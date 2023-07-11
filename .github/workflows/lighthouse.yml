@@ -22,5 +22,16 @@ jobs:
       - name: Install Lighthouse CI
         run: npm install -g @lhci/cli@0.12.x
 
+      - name: Install Deno
+        uses: denolib/setup-deno@v2
+        with:
+          deno-version: 1.35.0
+
+      - name: Build and Start Server
+        run: |
+          deno task build && deno task start
+
       - name: Run Lighthouse
-        run: URL=$URL lhci autorun
+        run: lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}

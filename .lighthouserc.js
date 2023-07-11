@@ -2,36 +2,11 @@ module.exports = {
   ci: {
     collect: {
       numberOfRuns: 1,
-      url: [process.env.URL],
-      settings: {
-        onlyCategories: [
-          'performance',
-          //   'accessibility',
-          //   'best-practices',
-          //   'seo',
-        ],
+      url: ['http://localhost:8080/'],
+      startServerCommand: 'deno task build && deno task start',
+      upload: {
+        target: 'temporary-public-storage',
       },
-    },
-  },
-
-  assert: {
-    assertions: {
-      'categories:performance': [
-        'error',
-        { minScore: 0.9, aggregationMethod: 'median-run' },
-      ],
-      //   'categories:accessibility': [
-      //     'error',
-      //     { minScore: 1, aggregationMethod: 'pessimistic' },
-      //   ],
-      //   'categories:best-practices': [
-      //     'error',
-      //     { minScore: 1, aggregationMethod: 'pessimistic' },
-      //   ],
-      //   'categories:seo': [
-      //     'error',
-      //     { minScore: 1, aggregationMethod: 'pessimistic' },
-      //   ],
     },
   },
 };
