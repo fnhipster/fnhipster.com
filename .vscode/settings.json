@@ -1,6 +1,3 @@
 {
-  "deno.enable": true,
-  "yaml.schemas": {
-    "https://json.schemastore.org/github-action.json": "file:///Users/fnhipster/Development/fnhipster.com/.github/workflows/deploy.yml"
-  }
+  "deno.enable": true
 }
