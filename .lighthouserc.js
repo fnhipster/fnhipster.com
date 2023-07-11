@@ -2,8 +2,7 @@ module.exports = {
   ci: {
     collect: {
       numberOfRuns: 1,
-      url: ['http://localhost:8080/'],
-      startServerCommand: 'deno task build && deno task start',
+      url: [process.env.URL],
       upload: {
         target: 'temporary-public-storage',
       },
