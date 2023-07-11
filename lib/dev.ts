@@ -1,8 +1,12 @@
+import { emptyDir } from 'https://deno.land/std@0.78.0/fs/mod.ts';
 import { serve } from 'https://deno.land/std@0.193.0/http/server.ts';
 import { serveDir } from 'https://deno.land/std@0.193.0/http/file_server.ts';
 import { getPagesIndex } from './index.ts';
-import { PORT, PAGES_PATH } from './config.ts';
-import { reset } from 'https://deno.land/std@0.193.0/fmt/colors.ts';
+import { PORT, PAGES_PATH, BUILD_PATH } from './config.ts';
+import { exists } from 'https://deno.land/std@0.78.0/fs/exists.ts';
+
+// Remove existing build
+await emptyDir(BUILD_PATH);
 
 // Initial Index
 let index = await getPagesIndex();
@@ -49,14 +53,22 @@ async function handler(request: Request): Promise<Response> {
   try {
     const { pathname } = url;
 
+    // Return static assets
+    if (/(.*\/assets\/.*)/.test(pathname)) {
+      // check if file is in build directory
+      if (await exists(BUILD_PATH + '/public' + pathname)) {
+        return await serveDir(request, {
+          fsRoot: BUILD_PATH + '/public',
+        });
+      }
+
+      // fallback to source files
+      return await serveDir(request, { fsRoot: PAGES_PATH });
+    }
+
     const slug = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
 
     const page = index.find((page) => page.meta.slug === slug);
-
-    // Return static assets
-    if (/(.*\/assets\/.*)/.test(pathname)) {
-      return await serveDir(request, { fsRoot: PAGES_PATH });
-    }
 
     // Not found
     if (!page) {
