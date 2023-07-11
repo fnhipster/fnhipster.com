@@ -2,11 +2,9 @@ name: Deploy
 
 on:
   push:
-    branches:
-      - main
+    branches: main
   pull_request:
-    branches:
-      - main
+    branches: main
 
 jobs:
   deploy:
@@ -20,13 +18,12 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v3
 
-      - name: Setup Deno
-        uses: denoland/setup-deno@v1
+      - name: Build step
+        uses: denoland/deployctl@v1
         with:
-          deno-version: 1.35.0
-
-      - name: Build
-        run: deno task build
+          project: 'deep-pike-64'
+          entrypoint: 'lib/build.ts'
+          root: '.'
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
