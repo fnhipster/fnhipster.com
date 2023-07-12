@@ -7,8 +7,9 @@ export async function getPage(path: string) {
   // Check if the folder exists
   if ((await exists(path)) === false) return null;
 
-  // Get model
-  const model = await import(path + '/model.ts').catch(() => ({}));
+  const model = await import(path + '/model.ts?v=' + Date.now()).catch(
+    () => null
+  );
 
   const data =
     (typeof model?.default === 'function'
