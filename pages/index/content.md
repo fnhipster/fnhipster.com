@@ -1,5 +1,3 @@
-![Responsive Image](/assets/placeholder.jpg?width=920&height=460)
-
 ```markdown
 👷 Pardon our mess. Work in progress.
 
