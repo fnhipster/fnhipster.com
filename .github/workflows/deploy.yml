@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - run: yarn install --global --frozen-lockfile
+      - run: npm install -g wrangler
       # - run: yarn export
 
       - name: Publish to Cloudflare Workers Sites
