@@ -377,11 +377,11 @@ template {
 
 html {
   font-size: 62.5%;
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-text);
   font-family: var(--font-family-body);
   font-weight: var(--font-weight-body);
   line-height: 1.5;

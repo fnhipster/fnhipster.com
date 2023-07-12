@@ -11,15 +11,26 @@
     />
     <link rel="stylesheet" href="/assets/styles/base.css" />
 
+    <%# Inject page styles %> 
     <% if (__style) { %>
     <style>
       <%- __style %>
     </style>
     <% } %>
+
+    <style>
+      :root {
+        <% if (meta.bgColor) %>
+        --color-background: <%= meta.bgColor %>;
+        <% if (meta.color) %>
+        --color-text: <%= meta.textColor %>;
+      }
+    </style>
   </head>
   <body>
     <div data-scope="content"><%- __content %></div>
 
+    <%# Inject page scripts %> 
     <% if (__script) { %>
     <script type="module">
       <%- __script %>
