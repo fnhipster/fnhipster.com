@@ -39,10 +39,8 @@ marked.use({
         return `<img src="${href}" alt="${alt}" title="${title}" />`;
       }
 
-      const src = getResizedImageURL(url.pathname, {
-        width,
-        height,
-      });
+      // Process Original Image
+      const src = getResizedImageURL(url.pathname, { width, height });
 
       processImage(url.pathname, {
         width,
@@ -51,8 +49,41 @@ marked.use({
         mode,
       });
 
+      // Process Small Image
+      const smWidth = Math.round(width / 2);
+      const smHeight = height && Math.round(height / 2);
+
+      const smSrc = getResizedImageURL(url.pathname, {
+        width: smWidth,
+        height: smHeight,
+      });
+
+      processImage(url.pathname, {
+        width: smWidth,
+        height: smHeight,
+        quality,
+        mode,
+      });
+
+      // Process Medium Image
+      const mdWidth = Math.round(width / 1.5);
+      const mdHeight = height && Math.round(height / 1.5);
+
+      const mdSrc = getResizedImageURL(url.pathname, {
+        width: mdWidth,
+        height: mdHeight,
+      });
+
+      processImage(url.pathname, {
+        width: mdWidth,
+        height: mdHeight,
+        quality,
+        mode,
+      });
+
       let img = '<img';
       img += ` src="${src}"`;
+      img += ` srcset="${smSrc} 480w, ${mdSrc} 800w, ${src} 1200w"`;
       img += ` alt="${alt}"`;
       img += ` title="${title}"`;
       img += ` width="${width}"`;
