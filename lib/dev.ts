@@ -4,6 +4,7 @@ import { serveDir } from 'https://deno.land/std@0.193.0/http/file_server.ts';
 import { getPagesIndex } from './index.ts';
 import { PORT, PAGES_PATH, BUILD_PATH } from './config.ts';
 import { exists } from 'https://deno.land/std@0.78.0/fs/exists.ts';
+import { getPageHTML } from './page.ts';
 
 // Remove existing build
 await emptyDir(BUILD_PATH);
@@ -66,18 +67,18 @@ async function handler(request: Request): Promise<Response> {
       return await serveDir(request, { fsRoot: PAGES_PATH });
     }
 
-    const slug = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
-
-    const page = index.find((page) => page.meta.slug === slug);
+    const page = index.find((existing) => pathname === existing.route);
 
     // Not found
     if (!page) {
       throw new Deno.errors.NotFound();
     }
 
+    const html = await getPageHTML(page);
+
     serverLog(request, 200);
 
-    return new Response(page.html, {
+    return new Response(html, {
       headers: { 'content-type': 'text/html; charset=utf-8' },
     });
   } catch (error) {
