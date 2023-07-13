@@ -1,76 +1,86 @@
-import { exists } from 'https://deno.land/std@0.78.0/fs/mod.ts';
-import { PAGES_PATH } from './config.ts';
-import { renderTemplate } from './template.ts';
-import { flattenObject } from './utils.ts';
+import { render as renderEJS } from 'https://esm.sh/v128/ejs@3.1.9';
+import { renderContent } from './content.ts';
 
-export async function getPage(path: string) {
-  // Check if the folder exists
-  if ((await exists(path)) === false) return null;
+export async function getPageHTML(index: {
+  route: string;
+  model?: string;
+  content?: string;
+  templates?: string[];
+  scripts?: string[];
+  styles?: string[];
+}) {
+  // get data
+  const model =
+    index.model &&
+    (await import(index.model + '?v=' + Date.now()).catch().then((_model) => {
+      if (!_model?.default) return {};
 
-  const model = await import(path + '/model.ts?v=' + Date.now()).catch(
-    () => null
-  );
+      if (typeof _model.default === 'function') {
+        return _model.default();
+      }
 
-  const data =
-    (typeof model?.default === 'function'
-      ? await model.default()
-      : model.default) || {};
+      return _model.default;
+    }));
 
-  // Get script
-  const __script = await Deno.readTextFile(path + '/script.js').catch(
-    () => null
-  );
-
-  const __clientjs = await Deno.readTextFile('./lib/client.js').catch(
-    () => null
-  );
-
-  // Get styles
-  const __style = await Deno.readTextFile(path + '/style.css').catch(
-    () => null
-  );
-
-  // Get content
-  const _markdown = await Deno.readTextFile(path + '/content.md').catch(
-    () => null
-  );
-
-  // Replace variables in markdown
-  const markdown = await Object.entries(flattenObject(data)).reduce(
-    async (acc, [key, value]) => {
-      const text = await acc;
-
-      return text.replace(
-        new RegExp(`@{${key}}`, 'g'),
-        `<span data-binding="${key}">${
-          typeof value === 'function' ? await value() : value
-        }</span>`
-      );
-    },
-    Promise.resolve(_markdown || '')
-  );
-
-  // Get template
-  const template = await Deno.readTextFile(path + '/template.ejs').catch(
-    () => null
-  );
-
-  // Prepare properties
-  const slug = path.replace(PAGES_PATH, '');
-
-  const props = {
-    ...data,
+  const data = {
+    ...model,
     meta: {
-      slug: slug === '/index' ? '/' : slug,
-      ...data?.meta,
+      ...model?.meta,
     },
   };
 
-  const html = await renderTemplate(
-    template,
-    { __script, __clientjs, __style, ...props },
-    markdown ? markdown : ''
-  );
+  // prepare page data
 
-  return { html, ...props };
+  // get content
+  const markdown =
+    index.content && (await Deno.readTextFile(index.content).catch());
+
+  // get templates
+  const templates =
+    index.templates &&
+    (await Promise.all(
+      index.templates.map(async (template) => {
+        return await Deno.readTextFile(template).catch();
+      })
+    ));
+
+  // get scripts
+  const scripts =
+    index.scripts &&
+    (
+      await Promise.all([
+        `const initializers = [];`,
+        ...index.scripts.map(async (script) => {
+          return await Deno.readTextFile(script)
+            .then((js) => `initializers.push(${js});`)
+            .catch();
+        }),
+        await Deno.readTextFile('./lib/client.js'),
+      ])
+    ).join('\n');
+
+  // get styles
+  const styles =
+    index.styles &&
+    (
+      await Promise.all(
+        index.styles.map(async (style) => {
+          return await Deno.readTextFile(style).catch();
+        })
+      )
+    ).join('\n');
+
+  // Render Templates to HTML recursively
+  const html = await templates?.reverse().reduce(async (child, template) => {
+    const __content = await child;
+
+    return await renderEJS(template, {
+      ...data,
+      __scripts: scripts,
+      __styles: styles,
+      __content,
+    });
+  }, Promise.resolve(markdown ? await renderContent(markdown) : ''));
+
+  return html;
 }

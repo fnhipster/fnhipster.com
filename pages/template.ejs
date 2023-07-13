@@ -12,29 +12,19 @@
     <link rel="stylesheet" href="/assets/styles/base.css" />
 
     <%# Inject page styles %> 
-    <% if (__style) { %>
+    <% if (__styles) { %>
     <style>
-      <%- __style %>
+      <%- __styles %>
     </style>
     <% } %>
-
-    <style>
-      :root {
-        <% if (meta.bgColor) %>
-        --color-background: <%= meta.bgColor %>;
-        <% if (meta.color) %>
-        --color-text: <%= meta.textColor %>;
-      }
-    </style>
   </head>
   <body>
     <div data-scope="content"><%- __content %></div>
 
     <%# Inject page scripts %> 
-    <% if (__script) { %>
+    <% if (__scripts) { %>
     <script type="module">
-      <%- __script %>
-      <%- __clientjs %>
+      <%- __scripts %>
     </script>
     <% } %>
   </body>

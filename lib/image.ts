@@ -46,6 +46,9 @@ export async function processImage(
     height,
   })}`;
 
+  // skip if the destination already exists
+  if (await exists(destination)) return;
+
   // skip if origin doesn't exist
   if (!(await exists(origin))) return;
 

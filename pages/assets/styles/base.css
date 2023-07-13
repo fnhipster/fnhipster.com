@@ -353,10 +353,10 @@ template {
 /* Base Styles */
 :root {
   /* Colors */
-  --color-background: #222;
-  --color-text: #fff;
+  --color-background: initial;
+  --color-text: initial;
 
-  --color-links: yellow;
+  --color-links: initial;
 
   /* Typography */
   --font-family-heading: 'system-ui', sans-serif;
