@@ -1,6 +1,6 @@
 export default {
   meta: {
-    title: 'fnhipster.com',
-    description: 'Under construction.',
+    title: 'Home',
+    description: 'This is the home page',
   },
 };
