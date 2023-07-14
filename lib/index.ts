@@ -51,41 +51,46 @@ export async function getPagesIndex() {
     continue;
   }
 
-  return routes.map((route) => {
-    // get model
-    const model = models[route];
+  return (
+    routes
+      // exclude if missing model or content
+      .filter((route) => !!(models[route] || contents[route]))
+      .map((route) => {
+        // get model
+        const model = models[route];
 
-    // get content
-    const content = contents[route];
+        // get content
+        const content = contents[route];
 
-    // get templates
-    const _templates: string[] = [];
-    const _scripts: string[] = [];
-    const _styles: string[] = [];
+        // get templates
+        const _templates: string[] = [];
+        const _scripts: string[] = [];
+        const _styles: string[] = [];
 
-    const _routes: string[] = [];
+        const _routes: string[] = [];
 
-    route.split('/').forEach((r) => {
-      _routes.push(r);
+        route.split('/').forEach((r) => {
+          _routes.push(r);
 
-      const t = templates[_routes.join('/') + '/' || '/'];
-      const s = scripts[_routes.join('/') + '/' || '/'];
-      const c = styles[_routes.join('/') + '/' || '/'];
+          const t = templates[_routes.join('/') + '/' || '/'];
+          const s = scripts[_routes.join('/') + '/' || '/'];
+          const c = styles[_routes.join('/') + '/' || '/'];
 
-      if (t) _templates.push(t);
-      if (s) _scripts.push(s);
-      if (c) _styles.push(c);
-    });
+          if (t) _templates.push(t);
+          if (s) _scripts.push(s);
+          if (c) _styles.push(c);
+        });
 
-    return {
-      route: route === '/index/' ? '/' : route,
-      model,
-      content,
-      templates: _templates,
-      scripts: _scripts,
-      styles: _styles,
-    };
-  });
+        return {
+          route: route === '/index/' ? '/' : route,
+          model,
+          content,
+          templates: _templates,
+          scripts: _scripts,
+          styles: _styles,
+        };
+      })
+  );
   // .sort((a, b) => {
   //   if (!a.meta.date || !b.meta.date) return 0;
   //   return new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime();
