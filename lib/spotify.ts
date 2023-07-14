@@ -5,6 +5,11 @@ const {
   SPOTIFY_CLIENT_SECRET = Deno.env.get('SPOTIFY_CLIENT_SECRET'),
 } = await load();
 
+console.log({
+  SPOTIFY_CLIENT_ID,
+  SPOTIFY_CLIENT_SECRET,
+});
+
 export async function getSpotifyTokens() {
   if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET) {
     throw new Error(
