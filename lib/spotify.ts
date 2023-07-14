@@ -1,6 +1,9 @@
 import { load } from 'https://deno.land/std@0.194.0/dotenv/mod.ts';
 
-const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } = await load();
+const {
+  SPOTIFY_CLIENT_ID = Deno.env.get('SPOTIFY_CLIENT_ID'),
+  SPOTIFY_CLIENT_SECRET = Deno.env.get('SPOTIFY_CLIENT_SECRET'),
+} = await load();
 
 export async function getSpotifyTokens() {
   if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET) {
