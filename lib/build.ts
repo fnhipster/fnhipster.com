@@ -1,8 +1,12 @@
-import { ensureDir } from 'https://deno.land/std@0.78.0/fs/mod.ts';
+import { ensureDir, emptyDir } from 'https://deno.land/std@0.78.0/fs/mod.ts';
 import { getPagesIndex } from './index.ts';
 import { getPageHTML } from './page.ts';
 import { BUILD_PATH } from './config.ts';
 
+// Clean build directory
+await emptyDir(BUILD_PATH);
+
+// Create build directory
 await ensureDir(BUILD_PATH);
 
 // Get all the pages
