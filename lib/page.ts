@@ -13,7 +13,7 @@ export async function getPageHTML(index: {
   // get data
   const model =
     index.model &&
-    (await import(index.model + '?v=' + Date.now()).catch().then((_model) => {
+    (await import(index.model).catch().then((_model) => {
       if (!_model?.default) return {};
 
       if (typeof _model.default === 'function') {
