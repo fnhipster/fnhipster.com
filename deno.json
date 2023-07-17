@@ -1,6 +1,6 @@
 {
     "tasks": {
-        "dev": "deno run --allow-net --allow-read --allow-env --allow-write lib/dev.ts",
+        "dev": "DEVELOPMENT=true deno run --allow-net --allow-read --allow-env --allow-write lib/start.ts",
         "build": "deno run --allow-net --allow-read --allow-env --allow-write lib/build.ts",
         "start": "deno run --allow-net --allow-read --allow-env --allow-write lib/start.ts"
     }
