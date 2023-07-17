@@ -92,8 +92,6 @@ async function handler(request: Request): Promise<Response> {
         ? new Request(request.url + 'index/index.html', request)
         : request;
 
-    console.log('👀', { BUILD_PATH });
-
     return await serveDir(_request, { fsRoot: BUILD_PATH });
   } catch (error) {
     if (error instanceof Deno.errors.NotFound) {
