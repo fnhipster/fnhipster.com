@@ -27,3 +27,5 @@ index.forEach(async (page) => {
 
   console.log(page.revalidate ? '🟢' : '⚪️', `${page.route}`);
 });
+
+console.log(index);
