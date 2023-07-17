@@ -1,5 +1,5 @@
-import { walk } from 'https://deno.land/std@0.78.0/fs/walk.ts';
-import { PAGES_PATH } from './config.ts';
+import { WalkEntry, walk } from 'https://deno.land/std@0.78.0/fs/walk.ts';
+import { BUILD_PATH, PAGES_PATH } from './config.ts';
 
 export async function getPagesIndex() {
   const templates: Record<string, string> = {};
@@ -7,6 +7,7 @@ export async function getPagesIndex() {
   const contents: Record<string, string> = {};
   const scripts: Record<string, string> = {};
   const styles: Record<string, string> = {};
+  const revalidates: Record<string, boolean> = {};
   const routes: string[] = [];
 
   for await (const entry of walk(PAGES_PATH, {
@@ -14,37 +15,40 @@ export async function getPagesIndex() {
     includeDirs: true,
     skip: [/\/assets$/],
   })) {
-    const key = entry.path
-      .replace(PAGES_PATH, '')
-      .replace(entry.isFile ? entry.name : '', '');
+    const key = getKey(entry);
 
     if (entry.isFile && entry.name === 'template.ejs') {
+      revalidates[key] = revalidates[key] || (await hasChanged(entry));
       templates[key] = entry.path;
       continue;
     }
 
     if (entry.isFile && entry.name === 'script.js') {
+      revalidates[key] = revalidates[key] || (await hasChanged(entry));
       scripts[key] = entry.path;
       continue;
     }
 
     if (entry.isFile && entry.name === 'style.css') {
+      revalidates[key] = revalidates[key] || (await hasChanged(entry));
       styles[key] = entry.path;
       continue;
     }
 
     if (entry.isFile && entry.name === 'model.ts') {
+      revalidates[key] = revalidates[key] || (await hasChanged(entry));
       models[key] = entry.path;
       continue;
     }
 
     if (entry.isFile && entry.name === 'content.md') {
+      revalidates[key] = revalidates[key] || (await hasChanged(entry));
       contents[key] = entry.path;
       continue;
     }
 
     if (entry.isDirectory && key !== '') {
-      routes.push(key + '/');
+      if (key !== '/') routes.push(key);
       continue;
     }
 
@@ -62,6 +66,9 @@ export async function getPagesIndex() {
         // get content
         const content = contents[route];
 
+        // get revalidation
+        const _revalidate = revalidates[route];
+
         // get templates
         const _templates: string[] = [];
         const _scripts: string[] = [];
@@ -71,10 +78,11 @@ export async function getPagesIndex() {
 
         route.split('/').forEach((r) => {
           _routes.push(r);
+          const key = (_routes.join('/') + '/').replace('//', '/');
 
-          const t = templates[_routes.join('/') + '/' || '/'];
-          const s = scripts[_routes.join('/') + '/' || '/'];
-          const c = styles[_routes.join('/') + '/' || '/'];
+          const t = templates[key];
+          const s = scripts[key];
+          const c = styles[key];
 
           if (t) _templates.push(t);
           if (s) _scripts.push(s);
@@ -82,17 +90,42 @@ export async function getPagesIndex() {
         });
 
         return {
-          route: route === '/index/' ? '/' : route,
+          route,
           model,
           content,
           templates: _templates,
           scripts: _scripts,
           styles: _styles,
+          revalidate: _revalidate,
         };
       })
   );
-  // .sort((a, b) => {
-  //   if (!a.meta.date || !b.meta.date) return 0;
-  //   return new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime();
-  // });
+}
+
+// Get file key
+function getKey(entry: WalkEntry) {
+  return (
+    entry.path
+      .replace(PAGES_PATH, '')
+      .replace(entry.isFile ? `/${entry.name}` : '', '') + '/'
+  );
+}
+
+// Check if file has changed
+async function hasChanged(entry: WalkEntry) {
+  try {
+    const key = getKey(entry);
+
+    const updatedAt = await Deno.stat(entry.path)
+      .then((stat) => stat.mtime ?? new Date())
+      .catch(() => new Date());
+
+    const cachedAt = await Deno.stat(`${BUILD_PATH}/${key}index.html`)
+      .then((stat) => stat.mtime ?? new Date(0))
+      .catch(() => new Date(0));
+
+    return updatedAt.getTime() > cachedAt.getTime();
+  } catch {
+    return true;
+  }
 }

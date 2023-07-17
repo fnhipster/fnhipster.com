@@ -8,6 +8,7 @@ export async function getPageHTML(index: {
   templates?: string[];
   scripts?: string[];
   styles?: string[];
+  revalidate?: boolean;
 }) {
   // get data
   const model =

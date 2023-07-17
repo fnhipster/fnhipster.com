@@ -1,18 +1,15 @@
-import { emptyDir } from 'https://deno.land/std@0.78.0/fs/mod.ts';
 import { serve } from 'https://deno.land/std@0.193.0/http/server.ts';
 import { serveDir } from 'https://deno.land/std@0.193.0/http/file_server.ts';
 import { getPagesIndex } from './index.ts';
 import { PORT, PAGES_PATH, BUILD_PATH } from './config.ts';
 import { exists } from 'https://deno.land/std@0.78.0/fs/exists.ts';
 import { getPageHTML } from './page.ts';
-
-// Remove existing build
-await emptyDir(BUILD_PATH);
+import { ensureDir } from 'https://deno.land/std@0.78.0/fs/ensure_dir.ts';
 
 // Initial Index
 let index = await getPagesIndex();
 
-// Watch for changes in Pages
+// Watch for changes in pages (dev mode only)
 setTimeout(async () => {
   let timeout: number | undefined;
 
@@ -35,6 +32,8 @@ setTimeout(async () => {
 async function handler(request: Request): Promise<Response> {
   const url = new URL(request.url);
 
+  const pathname = url.pathname === '/' ? '/index/' : url.pathname;
+
   // Redirect to trailing slash
   if (
     !/\.[a-zA-Z0-9]{1,4}$/.test(url.pathname) &&
@@ -52,14 +51,12 @@ async function handler(request: Request): Promise<Response> {
   }
 
   try {
-    const { pathname } = url;
-
     // Return static assets
     if (/(.*\/assets\/.*)/.test(pathname)) {
       // check if file is in build directory
-      if (await exists(BUILD_PATH + '/public' + pathname)) {
+      if (await exists(BUILD_PATH + pathname)) {
         return await serveDir(request, {
-          fsRoot: BUILD_PATH + '/public',
+          fsRoot: BUILD_PATH,
         });
       }
 
@@ -70,16 +67,31 @@ async function handler(request: Request): Promise<Response> {
     const page = index.find((existing) => pathname === existing.route);
 
     // Not found
-    if (!page) {
-      throw new Deno.errors.NotFound();
+    if (!page) throw new Deno.errors.NotFound();
+
+    // Rebuild page if revalidate is true
+    if (page.revalidate) {
+      const html = await getPageHTML(page);
+
+      if (html) {
+        console.log(`🔄 Rebuilding ${page.route}...`);
+
+        await ensureDir(`${BUILD_PATH}/${page.route}`);
+
+        await Deno.writeTextFile(`${BUILD_PATH}${page.route}index.html`, html, {
+          create: true,
+        }).catch(console.error);
+      }
     }
 
-    const html = await getPageHTML(page);
+    // Index
+    const _request =
+      page.route === '/index/'
+        ? new Request(request.url + 'index/index.html', request)
+        : request;
 
-    serverLog(request, 200);
-
-    return new Response(html, {
-      headers: { 'content-type': 'text/html; charset=utf-8' },
+    return await serveDir(_request, {
+      fsRoot: BUILD_PATH,
     });
   } catch (error) {
     if (error instanceof Deno.errors.NotFound) {

@@ -41,7 +41,7 @@ export async function processImage(
 
   const origin = `${PAGES_PATH}${filepath}`;
 
-  const destination = `${BUILD_PATH}/public${getResizedImageURL(filepath, {
+  const destination = `${BUILD_PATH}${getResizedImageURL(filepath, {
     width,
     height,
   })}`;
