@@ -10,24 +10,25 @@ export async function getPageHTML(index: {
   styles?: string[];
   revalidate?: boolean;
 }) {
+  console.debug('getPageHTML', index);
   // get data
-  // const model =
-  //   index.model &&
-  //   (await import(index.model + '?v=' + Date.now()).catch().then((_model) => {
-  //     if (!_model?.default) return {};
+  const model =
+    index.model &&
+    (await import(index.model + '?v=' + Date.now()).catch().then((_model) => {
+      if (!_model?.default) return {};
 
-  //     if (typeof _model.default === 'function') {
-  //       return _model.default();
-  //     }
+      if (typeof _model.default === 'function') {
+        return _model.default();
+      }
 
-  //     return _model.default;
-  //   }));
+      return _model.default;
+    }));
 
   const data = {
-    // ...model,
-    // meta: {
-    //   ...model?.meta,
-    // },
+    ...model,
+    meta: {
+      ...model?.meta,
+    },
   };
 
   // prepare page data
