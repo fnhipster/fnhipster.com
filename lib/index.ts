@@ -118,11 +118,13 @@ async function hasChanged(entry: WalkEntry) {
 
     const updatedAt = await Deno.stat(entry.path)
       .then((stat) => stat.mtime ?? new Date())
-      .catch(() => new Date());
+      // .catch(() => new Date());
+      .catch(console.error);
 
-    const cachedAt = await Deno.stat(`${BUILD_PATH}/${key}index.html`)
+    const cachedAt = await Deno.stat(`${BUILD_PATH}${key}index.html`)
       .then((stat) => stat.mtime ?? new Date(0))
-      .catch(() => new Date(0));
+      // .catch(() => new Date(0));
+      .catch(console.error);
 
     return updatedAt.getTime() > cachedAt.getTime();
   } catch {
