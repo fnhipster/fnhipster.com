@@ -116,13 +116,13 @@ async function hasChanged(entry: WalkEntry) {
   try {
     const key = getKey(entry);
 
-    const updatedAt = await Deno.stat(entry.path)
-      .then((stat) => stat.mtime ?? new Date())
-      .catch(() => new Date());
-
     const cachedAt = await Deno.stat(`${BUILD_PATH}${key}index.html`)
       .then((stat) => stat.mtime ?? new Date(0))
       .catch(() => new Date(0));
+
+    const updatedAt = await Deno.stat(entry.path)
+      .then((stat) => stat.mtime ?? new Date())
+      .catch(() => new Date());
 
     console.log({ cachedAt, updatedAt });
 
