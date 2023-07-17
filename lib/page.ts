@@ -10,7 +10,6 @@ export async function getPageHTML(index: {
   styles?: string[];
   revalidate?: boolean;
 }) {
-  console.log(index);
   // get data
   const model =
     index.model &&

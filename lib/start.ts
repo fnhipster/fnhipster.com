@@ -1,7 +1,7 @@
 import { serve } from 'https://deno.land/std@0.193.0/http/server.ts';
 import { serveDir } from 'https://deno.land/std@0.193.0/http/file_server.ts';
 import { getPagesIndex } from './index.ts';
-import { PORT } from './config.ts';
+import { BUILD_PATH, PAGES_PATH, PORT } from './config.ts';
 import { exists } from 'https://deno.land/std@0.78.0/fs/exists.ts';
 import { getPageHTML } from './page.ts';
 import { ensureDir } from 'https://deno.land/std@0.78.0/fs/ensure_dir.ts';
@@ -19,7 +19,7 @@ if (Deno.env.get('DEVELOPMENT')) {
       timeout = setTimeout(fn, delay);
     }
 
-    const watcher = Deno.watchFs('./pages', { recursive: true });
+    const watcher = Deno.watchFs(PAGES_PATH, { recursive: true });
 
     for await (const _event of watcher) {
       debounce(async () => {
@@ -56,14 +56,14 @@ async function handler(request: Request): Promise<Response> {
     // Return static assets
     if (/(.*\/assets\/.*)/.test(pathname)) {
       // check if file is in build directory
-      if (await exists('./cache' + pathname)) {
+      if (await exists(BUILD_PATH + pathname)) {
         return await serveDir(request, {
-          fsRoot: './cache',
+          fsRoot: BUILD_PATH,
         });
       }
 
       // fallback to source files
-      return await serveDir(request, { fsRoot: './pages' });
+      return await serveDir(request, { fsRoot: PAGES_PATH });
     }
 
     const page = index.find((existing) => pathname === existing.route);
@@ -78,9 +78,9 @@ async function handler(request: Request): Promise<Response> {
       if (html) {
         console.log(`🔄 Rebuilding ${page.route}...`);
 
-        await ensureDir(`./cache/${page.route}`);
+        await ensureDir(`${BUILD_PATH}/${page.route}`);
 
-        await Deno.writeTextFile(`./cache${page.route}index.html`, html, {
+        await Deno.writeTextFile(`${BUILD_PATH}${page.route}index.html`, html, {
           create: true,
         }).catch(console.error);
       }
@@ -92,7 +92,7 @@ async function handler(request: Request): Promise<Response> {
         ? new Request(request.url + 'index/index.html', request)
         : request;
 
-    return await serveDir(_request, { fsRoot: './cache' });
+    return await serveDir(_request, { fsRoot: BUILD_PATH });
   } catch (error) {
     if (error instanceof Deno.errors.NotFound) {
       serverLog(request, 404);

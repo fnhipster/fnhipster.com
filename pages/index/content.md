@@ -1,4 +1,2 @@
 - [Lorem Ipsum](/lorem-ipsum/)
 - [Playlist](/playlist/hello-world/)
-
-Updated.
