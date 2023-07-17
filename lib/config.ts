@@ -1,8 +1,6 @@
 export const PORT = Number(Deno.env.get('PORT')) || 8080;
-export const PAGES_PATH = Deno.cwd() + '/pages';
-export const BUILD_PATH = Deno.cwd() + '/cache';
-
-console.log({ PAGES_PATH, BUILD_PATH });
+export const PAGES_PATH = Deno.cwd().replace('/src', '') + '/pages';
+export const BUILD_PATH = Deno.cwd().replace('/src', '') + '/cache';
 
 export interface Meta {
   slug: string;
