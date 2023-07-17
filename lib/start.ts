@@ -72,7 +72,7 @@ async function handler(request: Request): Promise<Response> {
     if (!page) throw new Deno.errors.NotFound();
 
     // Rebuild page if revalidate is true
-    if (page.revalidate) {
+    if (Deno.env.get('DEVELOPMENT') && page.revalidate) {
       const html = await getPageHTML(page);
 
       if (html) {
