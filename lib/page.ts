@@ -11,6 +11,7 @@ export async function getPageHTML(index: {
   revalidate?: boolean;
 }) {
   console.debug('getPageHTML', index);
+
   // get data
   const model =
     index.model &&
