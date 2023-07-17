@@ -124,8 +124,6 @@ async function hasChanged(entry: WalkEntry) {
       .then((stat) => stat.mtime ?? new Date())
       .catch(() => new Date());
 
-    console.log({ cachedAt, updatedAt });
-
     return updatedAt.getTime() > cachedAt.getTime();
   } catch {
     return true;
