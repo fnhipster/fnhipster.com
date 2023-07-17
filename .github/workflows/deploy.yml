@@ -34,4 +34,6 @@ jobs:
         with:
           project: 'fnhipster'
           entrypoint: 'lib/start.ts'
-          root: '.'
+          root: ${{ env.WORKSPACE }}
+        env:
+          WORKSPACE: ${{ github.workspace }}
