@@ -5,7 +5,6 @@ import {
   MagickFormat,
   MagickGeometry,
 } from 'https://deno.land/x/imagemagick_deno@0.0.14/mod.ts';
-import { PAGES_PATH, BUILD_PATH } from './config.ts';
 
 // Initialize ImageMagick
 await initializeImageMagick();
@@ -39,9 +38,9 @@ export async function processImage(
 ) {
   const { width = 0, height = 0, mode = 'crop', quality = 80 } = options;
 
-  const origin = `${PAGES_PATH}${filepath}`;
+  const origin = `./pages${filepath}`;
 
-  const destination = `${BUILD_PATH}${getResizedImageURL(filepath, {
+  const destination = `./cache${getResizedImageURL(filepath, {
     width,
     height,
   })}`;

@@ -1,5 +1,4 @@
 import { WalkEntry, walk } from 'https://deno.land/std@0.78.0/fs/walk.ts';
-import { BUILD_PATH, PAGES_PATH } from './config.ts';
 
 export async function getPagesIndex() {
   const templates: Record<string, string> = {};
@@ -10,7 +9,7 @@ export async function getPagesIndex() {
   const revalidates: Record<string, boolean> = {};
   const routes: string[] = [];
 
-  for await (const entry of walk(PAGES_PATH, {
+  for await (const entry of walk('./pages', {
     includeFiles: true,
     includeDirs: true,
     skip: [/\/assets$/],
@@ -19,31 +18,31 @@ export async function getPagesIndex() {
 
     if (entry.isFile && entry.name === 'template.ejs') {
       revalidates[key] = revalidates[key] || (await hasChanged(entry));
-      templates[key] = entry.path;
+      templates[key] = './' + entry.path;
       continue;
     }
 
     if (entry.isFile && entry.name === 'script.js') {
       revalidates[key] = revalidates[key] || (await hasChanged(entry));
-      scripts[key] = entry.path;
+      scripts[key] = './' + entry.path;
       continue;
     }
 
     if (entry.isFile && entry.name === 'style.css') {
       revalidates[key] = revalidates[key] || (await hasChanged(entry));
-      styles[key] = entry.path;
+      styles[key] = './' + entry.path;
       continue;
     }
 
     if (entry.isFile && entry.name === 'model.ts') {
       revalidates[key] = revalidates[key] || (await hasChanged(entry));
-      models[key] = entry.path;
+      models[key] = './' + entry.path;
       continue;
     }
 
     if (entry.isFile && entry.name === 'content.md') {
       revalidates[key] = revalidates[key] || (await hasChanged(entry));
-      contents[key] = entry.path;
+      contents[key] = './' + entry.path;
       continue;
     }
 
@@ -106,7 +105,7 @@ export async function getPagesIndex() {
 function getKey(entry: WalkEntry) {
   return (
     entry.path
-      .replace(PAGES_PATH, '')
+      .replace(/^pages/, '')
       .replace(entry.isFile ? `/${entry.name}` : '', '') + '/'
   );
 }
@@ -116,7 +115,7 @@ async function hasChanged(entry: WalkEntry) {
   try {
     const key = getKey(entry);
 
-    const cachedAt = await Deno.stat(`${BUILD_PATH}${key}index.html`)
+    const cachedAt = await Deno.stat(`./cache${key}index.html`)
       .then((stat) => stat.mtime ?? new Date(0))
       .catch(() => new Date(0));
 

@@ -13,15 +13,17 @@ export async function getPageHTML(index: {
   // get data
   const model =
     index.model &&
-    (await import(index.model + '?v=' + Date.now()).catch().then((_model) => {
-      if (!_model?.default) return {};
+    (await import('.' + index.model + '?v=' + Date.now())
+      .catch()
+      .then((_model) => {
+        if (!_model?.default) return {};
 
-      if (typeof _model.default === 'function') {
-        return _model.default();
-      }
+        if (typeof _model.default === 'function') {
+          return _model.default();
+        }
 
-      return _model.default;
-    }));
+        return _model.default;
+      }));
 
   const data = {
     ...model,
