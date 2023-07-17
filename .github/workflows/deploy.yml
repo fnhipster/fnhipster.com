@@ -33,9 +33,6 @@ jobs:
           SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
           SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
 
-      - name: List Files
-        run: ls -R
-
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
