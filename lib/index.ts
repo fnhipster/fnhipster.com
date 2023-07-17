@@ -17,6 +17,8 @@ export async function getPagesIndex() {
   })) {
     const key = getKey(entry);
 
+    console.log('👀', { PAGES_PATH, key });
+
     if (entry.isFile && entry.name === 'template.ejs') {
       revalidates[key] = revalidates[key] || (await hasChanged(entry));
       templates[key] = entry.path;
