@@ -24,7 +24,7 @@ jobs:
           deno-version: 1.35.0
 
       - name: Build
-        run: ls .mdly && deno task build
+        run: deno task build
         env:
           SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
           SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
@@ -34,3 +34,4 @@ jobs:
         with:
           project: 'fnhipster'
           entrypoint: 'lib/start.ts'
+          root: .
