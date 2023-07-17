@@ -10,8 +10,12 @@ import { ensureDir } from 'https://deno.land/std@0.78.0/fs/ensure_dir.ts';
 let index = await getPagesIndex();
 
 // list all files in folder
-for await (const file of Deno.readDir('.')) {
-  console.debug('📁', file.name);
+for await (const file of Deno.readDir(BUILD_PATH)) {
+  console.debug('⚪️ /cache/', file.name);
+}
+
+for await (const file of Deno.readDir(PAGES_PATH)) {
+  console.debug('🟢 /pages/', file.name);
 }
 
 // Watch for changes in pages (dev mode only)
