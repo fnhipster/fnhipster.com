@@ -37,5 +37,5 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: 'fnhipster'
-          entrypoint: 'https://deno.land/x/mdly@0.1.0-beta11/start.ts'
+          entrypoint: 'https://deno.land/x/mdly/start.ts'
           root: '.'
