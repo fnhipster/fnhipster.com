@@ -1,31 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title><%= meta.title %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="description" content="<%= meta.description %>" />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🚧</text></svg>"
-    />
-    <link rel="stylesheet" href="/assets/styles/base.css" />
 
-    <%# Inject page styles %> 
-    <% if (__styles) { %>
-    <style>
-      <%- __styles %>
-    </style>
-    <% } %>
-  </head>
-  <body>
-    <div data-scope="content"><%- __content %></div>
+<head>
+  <meta charset="UTF-8" />
+  <title><%= meta.title %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="<%= meta.description %>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🚧</text></svg>" />
+  <link rel="stylesheet" href="/assets/styles/base.css" />
 
-    <%# Inject page scripts %> 
-    <% if (__scripts) { %>
-    <script type="module">
-      <%- __scripts %>
-    </script>
-    <% } %>
-  </body>
+  <%# Inject page styles %> <% if (__styles) { %>
+  <style>
+    <%- __styles %>
+  </style>
+  <% } %>
+</head>
+
+<body>
+  <header data-scope="header">
+    <a href="/">
+      <h1>
+        fnhipster
+      </h1>
+    </a>
+  </header>
+
+  <main data-scope="content">
+    <%- __content %>
+  </main>
+
+  <footer data-scope="footer">
+    <p>© <%= new Date().getUTCFullYear() %> fnhipster</p>
+  </footer>
+
+  <%# Inject page scripts %> <% if (__scripts) { %>
+  <script type="module">
+    <%- __scripts %>
+  </script>
+  <% } %>
+</body>
+
 </html>
