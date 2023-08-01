@@ -62,7 +62,7 @@ hr {
  */
 
 pre {
-  font-family: monospace, monospace; /* 1 */
+  font-family: monospace; /* 1 */
   font-size: 1em; /* 2 */
 }
 
@@ -398,10 +398,6 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
 a:visited {
   color: var(--color-links);
 }
@@ -471,6 +467,7 @@ iframe {
 .hljs {
   color: #c9d1d9;
   background: #0d1117;
+  text-shadow: 0 0 0.15em;
 }
 
 .hljs-doctag,
@@ -572,13 +569,4 @@ iframe {
   /* prettylights-syntax-markup-deleted */
   color: #ffdcd7;
   background-color: #67060c;
-}
-
-.hljs-char.escape_,
-.hljs-link,
-.hljs-params,
-.hljs-property,
-.hljs-punctuation,
-.hljs-tag {
-  /* purposely ignored */
 }

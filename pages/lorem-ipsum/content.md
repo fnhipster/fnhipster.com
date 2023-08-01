@@ -2,6 +2,8 @@
 
 This is an example of a Markdown document that includes various elements
 
+---
+
 ![Eager Image](/assets/placeholder.jpg?width=960&height=960)
 
 ## Heading 2
