@@ -18,7 +18,7 @@
   </head>
 
   <body>
-    <header data-scope="header">
+    <header class="app__header" data-scope="header">
       <a href="/">
         <span class="app__logo app__logo--triangle">&triangle;</span>
         <span class="app__logo app__logo--cursor"></span>
@@ -28,55 +28,11 @@
     <main class="app__content" data-scope="content"><%- __content %></main>
 
     <footer class="app__footer" data-scope="footer">
+      <span class="app__message" data-message></span>
+
       <span class="copywright">
         © <%= new Date().getUTCFullYear() %>, fnhipster
       </span>
-
-      <svg
-        class="app__footer__barcode"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 225 111.54"
-      >
-        <rect x="19" width="2" height="100" />
-        <rect x="23" width="2" height="100" />
-        <rect x="31" width="2" height="80" />
-        <rect x="33" width="2" height="80" />
-        <rect x="37" width="2" height="80" />
-        <rect x="45" width="2" height="80" />
-        <rect x="47" width="2" height="80" />
-        <rect x="51" width="2" height="80" />
-        <rect x="57" width="2" height="80" />
-        <rect x="59" width="2" height="80" />
-        <rect x="65" width="2" height="80" />
-        <rect x="73" width="2" height="80" />
-        <rect x="75" width="2" height="80" />
-        <rect x="79" width="2" height="80" />
-        <rect x="87" width="2" height="80" />
-        <rect x="89" width="2" height="80" />
-        <rect x="93" width="2" height="80" />
-        <rect x="99" width="2" height="80" />
-        <rect x="101" width="2" height="80" />
-        <rect x="107" width="2" height="80" />
-        <rect x="111" width="2" height="100" />
-        <rect x="115" width="2" height="100" />
-        <rect x="119" width="2" height="80" />
-        <rect x="121" width="2" height="80" />
-        <rect x="123" width="2" height="80" />
-        <rect x="129" width="2" height="80" />
-        <rect x="133" width="2" height="80" />
-        <rect x="135" width="2" height="80" />
-        <rect x="137" width="2" height="80" />
-        <rect x="143" width="2" height="80" />
-        <rect x="219" width="2" height="80" />
-        <rect x="223" width="2" height="80" />
-        <text transform="translate(0 100)"><tspan x="0" y="0">0</tspan></text>
-        <text transform="translate(37 100)">
-          <tspan x="0" y="0">01001</tspan>
-        </text>
-        <text transform="translate(127 100)">
-          <tspan x="0" y="0">00</tspan>
-        </text>
-      </svg>
     </footer>
 
     <%# Inject page scripts %> <% if (__scripts) { %>

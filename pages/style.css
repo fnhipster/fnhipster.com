@@ -1,4 +1,4 @@
-@import url('https://use.typekit.net/joe8rol.css');
+/* @import url('https://use.typekit.net/joe8rol.css'); */
 
 :root {
   --color-background: #111;
@@ -15,6 +15,12 @@ body {
   min-height: 100vh;
   display: grid;
   grid-auto-rows: auto 1fr auto;
+}
+
+.app__header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
 }
 
 /* Logo */
@@ -39,6 +45,12 @@ body {
 .app__logo--cursor::after {
   content: '_';
   animation: blink 1s ease-in-out infinite alternate;
+}
+
+.app__message {
+  font-family: 'lores-12', sans-serif;
+  font-size: 1.3rem;
+  font-style: normal;
 }
 
 /* Page Heading */
@@ -71,7 +83,7 @@ body {
 /* Footer */
 .app__footer {
   font-family: 'lores-12', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-style: normal;
   font-weight: 400;
   padding-top: var(--margin);
@@ -79,11 +91,6 @@ body {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-}
-
-.app__footer__barcode {
-  fill: currentColor;
-  height: 6em;
 }
 
 @keyframes shift {

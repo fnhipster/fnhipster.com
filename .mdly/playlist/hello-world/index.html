@@ -6,10 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="description" content="Test" />
     <link rel="preconnect" href="https://use.typekit.net/" crossorigin />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🚧</text></svg>"
-    />
+    <link rel="icon" href="/assets/favicon.svg" />
 
     <link rel="stylesheet" href="/assets/styles/base.css" />
 
@@ -19,7 +16,7 @@
 
 :root {
   --color-background: #111;
-  --color-text: #25e37e;
+  --color-text: #ffa500;
 }
 
 /* Layout */
@@ -34,20 +31,41 @@ body {
   grid-auto-rows: auto 1fr auto;
 }
 
+.app__header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
 /* Logo */
 .app__logo {
   font-size: 3rem;
+  text-shadow: 0 0 1em currentColor;
   display: inline-block;
-  position: relative;
   font-weight: bold;
+}
+
+.app__logo:hover {
+  text-shadow: 0 0 2em currentColor;
+}
+
+.app__logo--triangle {
+  position: relative;
   animation: shift 4s ease-in-out infinite alternate;
   transform: skewX(0deg);
   z-index: 1;
-  text-shadow: 0 0 1em var(--color-text);
 }
 
-.app__content {
-  --glow: 0 0 1em rgba(37, 227, 126, 0.5);
+.app__logo--cursor::after {
+  content: '_';
+  animation: blink 1s ease-in-out infinite alternate;
+}
+
+.app__message {
+  text-align: right;
+  font-family: 'lores-12', sans-serif;
+  font-size: 1.3rem;
+  font-style: normal;
 }
 
 /* Page Heading */
@@ -57,7 +75,7 @@ body {
   font-variation-settings: 'GAME' 100;
   line-height: 0.7;
   margin: 0;
-  text-shadow: var(--glow);
+  color: var(--color-text);
 }
 
 .app__content > h1:first-of-type + p:has(+ hr) {
@@ -66,27 +84,28 @@ body {
   font-style: normal;
   font-weight: 400;
   margin: 0;
-  text-shadow: var(--glow);
-  text-transform: uppercase;
 }
 
 .app__content > h1:first-of-type + p + hr {
   border-color: var(--color-text);
   border-style: solid;
-  border-width: 3px;
+  border-width: 0.3rem;
   max-width: 20rem;
   display: inline-block;
-  text-shadow: var(--glow);
   width: 100%;
 }
 
 /* Footer */
 .app__footer {
   font-family: 'lores-12', sans-serif;
-  font-weight: 400;
+  font-size: 1.3rem;
   font-style: normal;
-  font-size: 1.1rem;
+  font-weight: 400;
+  padding-top: var(--margin);
   text-transform: uppercase;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
 }
 
 @keyframes shift {
@@ -124,6 +143,16 @@ body {
   }
 }
 
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
 :root {
   --color-background: #c3c7ee;
   --color-text: red;
@@ -134,8 +163,13 @@ body {
   </head>
 
   <body>
-    <header data-scope="header">
-      <a href="/"><span class="app__logo">&triangle; </span> </a>
+    <header class="app__header" data-scope="header">
+      <a href="/">
+        <span class="app__logo app__logo--triangle">&triangle;</span>
+        <span class="app__logo app__logo--cursor"></span>
+      </a>
+
+      <span class="app__message" data-message></span>
     </header>
 
     <main class="app__content" data-scope="content"><div class="playlist">
@@ -152,22 +186,73 @@ body {
 </main>
 
     <footer class="app__footer" data-scope="footer">
-      © 2023, fnhipster
+      <span class="copywright">
+        © 2023, fnhipster
+      </span>
     </footer>
 
      
     <script type="module">
       const initializers = [];
 initializers.push(function init() {
-  //   function spaNavigate(data) {
-  //     // Fallback for browsers that don't support this API:
-  //     if (!document.startViewTransition) {
-  //       updateTheDOMSomehow(data);
-  //       return;
-  //     }
-  //     // With a transition:
-  //     document.startViewTransition(() => updateTheDOMSomehow(data));
-  //   }
+  // Message
+  const binary = [
+    '01010100',
+    '01110010',
+    '01110101',
+    '01100101',
+    '00100000',
+    '01001100',
+    '01101111',
+    '01110110',
+    '01100101',
+    '00100000',
+    '01010111',
+    '01101001',
+    '01101100',
+    '01101100',
+    '00100000',
+    '01000110',
+    '01101001',
+    '01101110',
+    '01100100',
+    '00100000',
+    '01011001',
+    '01101111',
+    '01110101',
+    '00100000',
+    '01101001',
+    '01101110',
+    '00100000',
+    '01110100',
+    '01101000',
+    '01100101',
+    '00100000',
+    '01000101',
+    '01101110',
+    '01100100',
+    '❤',
+  ];
+
+  const $message = document.querySelector('[data-message]');
+  let current = Number(localStorage.getItem('message-index')) ?? 0;
+  $message.textContent = binary[current];
+
+  const interval = setInterval(() => {
+    $message.textContent = binary[current];
+
+    current++;
+
+    if (current === binary.length) {
+      current = 0;
+    }
+
+    localStorage.setItem('message-index', current);
+
+    if (current === binary.length) {
+      clearInterval(interval);
+    }
+  }, 3000);
 }
 );
 const scope = document.querySelectorAll(`[data-scope]`)[0];
