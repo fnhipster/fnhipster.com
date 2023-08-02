@@ -1,17 +1,5 @@
 function init() {
-  loadAdobeFonts('joe8rol');
   loadBinaryMessage();
-
-  function loadAdobeFonts(id) {
-    const $link = document.createElement('link');
-    $link.rel = 'stylesheet';
-    $link.href = `https://use.typekit.net/${id}.css`;
-
-    document.head.insertBefore(
-      $link,
-      document.head.childNodes[document.head.childNodes.length - 1].nextSibling
-    );
-  }
 
   function loadBinaryMessage() {
     const string = 'True Love Will Find You in the End';
