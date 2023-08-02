@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Lorem Ipsum</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="description" content="Under construction" />
-    <link rel="preconnect" href="https://use.typekit.net/" crossorigin />
-    <link rel="icon" href="/assets/favicon.svg" />
 
-    <link rel="stylesheet" href="/assets/styles/base.css" />
+<head>
+  <meta charset="UTF-8" />
+  <title>Lorem Ipsum</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Under construction" />
+  <link rel="preconnect" href="https://use.typekit.net/" crossorigin />
+  <link rel="icon" href="/assets/favicon.svg" />
 
-     
-    <style>
-      /* @import url('https://use.typekit.net/joe8rol.css'); */
+  <link rel="stylesheet" href="/assets/styles/base.css" />
+
+   
+  <style>
+    /* @import url('https://use.typekit.net/joe8rol.css'); */
 
 :root {
   --color-background: #111;
@@ -70,7 +71,7 @@ body {
 /* Page Heading */
 .app__content > h1:first-of-type {
   font-family: 'bd-console-variable', sans-serif;
-  font-size: 8rem;
+  font-size: clamp(1.6rem, 8vw, 8rem);
   font-variation-settings: 'GAME' 100;
   line-height: 0.7;
   margin: 0;
@@ -152,19 +153,19 @@ body {
   }
 }
 
-    </style>
-    
-  </head>
+  </style>
+  
+</head>
 
-  <body>
-    <header class="app__header" data-scope="header">
-      <a href="/">
-        <span class="app__logo app__logo--triangle">&triangle;</span>
-        <span class="app__logo app__logo--cursor"></span>
-      </a>
-    </header>
+<body>
+  <header class="app__header" data-scope="header">
+    <a href="/">
+      <span class="app__logo app__logo--triangle">&triangle;</span>
+      <span class="app__logo app__logo--cursor"></span>
+    </a>
+  </header>
 
-    <main class="app__content" data-scope="content"><h1>My Markdown Example</h1>
+  <main class="app__content" data-scope="content"><h1>My Markdown Example</h1>
 <p>This is an example of a Markdown document that includes various elements</p>
 <hr/>
 <p><img src="/assets/placeholder.960x960.webp" srcset="/assets/placeholder.480x480.webp 480w, /assets/placeholder.640x640.webp 800w, /assets/placeholder.960x960.webp 1200w" alt="Eager Image" title="" width="960" height="960" /></p>
@@ -206,17 +207,17 @@ body {
     <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Hello, <span class="hljs-subst">{name}</span>!&quot;</span>)
 </code></pre></main>
 
-    <footer class="app__footer" data-scope="footer">
-      <span class="app__message" data-message></span>
+  <footer class="app__footer" data-scope="footer">
+    <span class="app__message" data-message></span>
 
-      <span class="copywright">
-        © 2023, fnhipster
-      </span>
-    </footer>
+    <span class="copywright">
+      © 2023, fnhipster
+    </span>
+  </footer>
 
-     
-    <script type="module">
-      const initializers = [];
+   
+  <script type="module">
+    const initializers = [];
 initializers.push(function init() {
   loadBinaryMessage();
 
@@ -294,14 +295,12 @@ initializers?.forEach?.((_init) => {
   _init?.(scope, { createState });
 });
 
-    </script>
+  </script>
 
-     
+  
 
-    <script
-      async
-      src="https://use.typekit.net/joe8rol.js"
-      onload="Typekit.load({ kitId: 'joe8rol'});"
-    ></script>
-  </body>
+  
+  <script async src="https://use.typekit.net/joe8rol.js" onload="Typekit.load({ kitId: 'joe8rol'});"></script>
+</body>
+
 </html>
