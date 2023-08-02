@@ -1,31 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title><%= meta.title %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="description" content="<%= meta.description %>" />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🚧</text></svg>"
-    />
-    <link rel="stylesheet" href="/assets/styles/base.css" />
 
-    <%# Inject page styles %> 
-    <% if (__styles) { %>
-    <style>
-      <%- __styles %>
-    </style>
-    <% } %>
-  </head>
-  <body>
-    <div data-scope="content"><%- __content %></div>
+<head>
+  <meta charset="UTF-8" />
+  <title><%= meta.title %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="<%= meta.description %>" />
+  <link rel="preconnect" href="https://use.typekit.net/" crossorigin />
+  <link rel="icon" href="/assets/favicon.svg" />
 
-    <%# Inject page scripts %> 
-    <% if (__scripts) { %>
-    <script type="module">
-      <%- __scripts %>
-    </script>
-    <% } %>
-  </body>
+  <link rel="stylesheet" href="/assets/styles/base.css" />
+
+  <%# Inject page styles %> <% if (__styles) { %>
+  <style>
+    <%- __styles %>
+  </style>
+  <% } %>
+</head>
+
+<body>
+  <header class="app__header" data-scope="header">
+    <a href="/">
+      <span class="app__logo app__logo--triangle">&triangle;</span>
+      <span class="app__logo app__logo--cursor"></span>
+    </a>
+  </header>
+
+  <main class="app__content" data-scope="content"><%- __content %></main>
+
+  <footer class="app__footer" data-scope="footer">
+    <span class="app__message" data-message></span>
+
+    <span class="copywright">
+      © <%= new Date().getUTCFullYear() %>, fnhipster
+    </span>
+  </footer>
+
+  <%# Inject page scripts %> <% if (__scripts) { %>
+  <script type="module">
+    <%- __scripts %>
+  </script>
+
+  <% } %>
+
+  <%# Adobe Fonts %>
+  <script async src="https://use.typekit.net/joe8rol.js" onload="Typekit.load({ kitId: 'joe8rol'});"></script>
+</body>
+
 </html>

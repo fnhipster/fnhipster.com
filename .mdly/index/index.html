@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>fnhipster</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="This is the home page." />
+    <link rel="preconnect" href="https://use.typekit.net/" crossorigin />
+    <link rel="icon" href="/assets/favicon.svg" />
+
+    <link rel="stylesheet" href="/assets/styles/base.css" />
+
+     
+    <style>
+      /* @import url('https://use.typekit.net/joe8rol.css'); */
+
+:root {
+  --color-background: #111;
+  --color-text: #ffa500;
+}
+
+/* Layout */
+body {
+  padding-top: var(--margin);
+  padding-bottom: var(--margin);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  min-height: 100vh;
+  display: grid;
+  grid-auto-rows: auto 1fr auto;
+}
+
+.app__header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+/* Logo */
+.app__logo {
+  font-size: 3rem;
+  text-shadow: 0 0 1em currentColor;
+  display: inline-block;
+  font-weight: bold;
+}
+
+.app__logo:hover {
+  text-shadow: 0 0 2em currentColor;
+}
+
+.app__logo--triangle {
+  position: relative;
+  animation: shift 4s ease-in-out infinite alternate;
+  transform: skewX(0deg);
+  z-index: 1;
+}
+
+.app__logo--cursor::after {
+  content: '_';
+  animation: blink 1s ease-in-out infinite alternate;
+}
+
+.app__message {
+  font-family: 'lores-12', sans-serif;
+  font-size: 1.3rem;
+  font-style: normal;
+}
+
+/* Page Heading */
+.app__content > h1:first-of-type {
+  font-family: 'bd-console-variable', sans-serif;
+  font-size: 8rem;
+  font-variation-settings: 'GAME' 100;
+  line-height: 0.7;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.app__content > h1:first-of-type + p:has(+ hr) {
+  font-family: 'lores-12', sans-serif;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0;
+}
+
+.app__content > h1:first-of-type + p + hr {
+  border-color: var(--color-text);
+  border-style: solid;
+  border-width: 0.3rem;
+  max-width: 20rem;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Footer */
+.app__footer {
+  font-family: 'lores-12', sans-serif;
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 400;
+  padding-top: var(--margin);
+  text-transform: uppercase;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+@keyframes shift {
+  0%,
+  40%,
+  44%,
+  58%,
+  61%,
+  65%,
+  69%,
+  73%,
+  100% {
+    transform: skewX(0deg);
+  }
+  41% {
+    transform: skewX(10deg);
+  }
+  42% {
+    transform: skewX(-10deg);
+  }
+  59% {
+    transform: skewX(35deg) skewY(10deg);
+  }
+  60% {
+    transform: skewX(-35deg) skewY(-10deg);
+  }
+  63% {
+    transform: skewX(10deg) skewY(-5deg);
+  }
+  70% {
+    transform: skewX(-30deg) skewY(-20deg);
+  }
+  71% {
+    transform: skewX(10deg) skewY(-10deg);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+    </style>
+    
+  </head>
+
+  <body>
+    <header class="app__header" data-scope="header">
+      <a href="/">
+        <span class="app__logo app__logo--triangle">&triangle;</span>
+        <span class="app__logo app__logo--cursor"></span>
+      </a>
+    </header>
+
+    <main class="app__content" data-scope="content"><ul>
+<li><a href="/lorem-ipsum/">Lorem Ipsum</a></li>
+<li><a href="/playlist/hello-world/">Playlist</a></li>
+</ul>
+</main>
+
+    <footer class="app__footer" data-scope="footer">
+      <span class="app__message" data-message></span>
+
+      <span class="copywright">
+        © 2023, fnhipster
+      </span>
+    </footer>
+
+     
+    <script type="module">
+      const initializers = [];
+initializers.push(function init() {
+  loadBinaryMessage();
+
+  function loadBinaryMessage() {
+    const string = 'True Love Will Find You in the End.';
+
+    const binary = string
+      .split('')
+      .map((char) => char.charCodeAt(0).toString(2).padStart(8, '0'));
+
+    const $message = document.querySelector('[data-message]');
+
+    let play = true;
+
+    $message.addEventListener('mouseenter', () => {
+      play = false;
+    });
+
+    $message.addEventListener('mouseleave', () => {
+      play = true;
+    });
+
+    let current = Number(localStorage.getItem('message-index')) ?? 0;
+
+    $message.textContent = binary[current];
+
+    setInterval(() => {
+      if (!play) return;
+
+      $message.textContent = binary[current];
+
+      current++;
+
+      if (current === binary.length) {
+        current = 0;
+      }
+
+      localStorage.setItem('message-index', current);
+    }, 2000);
+  }
+}
+);
+const scope = document.querySelectorAll(`[data-scope]`)[0];
+
+function createState(initialState = {}) {
+  const $bindings = scope.querySelectorAll('[data-binding]');
+
+  const state = new Proxy(initialState, {
+    set: (target, key, value) => {
+      target[key] = value;
+
+      const elements = Array.from($bindings).filter((node) => {
+        return node.dataset.binding === key;
+      });
+
+      elements.forEach((element) => {
+        element.textContent = value;
+      });
+
+      return true;
+    },
+  });
+
+  // Initial bindings
+  $bindings.forEach(($binding) => {
+    const key = $binding.dataset.binding;
+    if (typeof state[key] === 'undefined') return;
+    $binding.textContent = state[key];
+  });
+
+  return state;
+}
+
+initializers?.forEach?.((_init) => {
+  _init?.(scope, { createState });
+});
+
+    </script>
+
+     
+
+    <script
+      async
+      src="https://use.typekit.net/joe8rol.js"
+      onload="Typekit.load({ kitId: 'joe8rol'});"
+    ></script>
+  </body>
+</html>
