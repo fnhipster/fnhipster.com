@@ -6,6 +6,8 @@ This is an example of a Markdown document that includes various elements
 
 ![Eager Image](/assets/placeholder.jpg?width=960&height=960)
 
+# Heading 1
+
 ## Heading 2
 
 ### Heading 3
@@ -24,7 +26,7 @@ You can make text _italic_ by using single asterisks or single underscores: `*it
 
 You can create a `inline code` by wrapping the text with backticks: \`inline code\`.
 
-![Lazy Image](/assets/placeholder.jpg?width=960&height=600&lazy=true)
+![Lazy Image](/assets/placeholder.jpg?width=960&height=300&lazy=true)
 
 ## Lists
 
