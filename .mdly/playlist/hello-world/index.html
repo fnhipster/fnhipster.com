@@ -12,7 +12,7 @@
 
      
     <style>
-      @import url('https://use.typekit.net/joe8rol.css');
+      /* @import url('https://use.typekit.net/joe8rol.css'); */
 
 :root {
   --color-background: #111;
@@ -62,7 +62,6 @@ body {
 }
 
 .app__message {
-  text-align: right;
   font-family: 'lores-12', sans-serif;
   font-size: 1.3rem;
   font-style: normal;
@@ -168,8 +167,6 @@ body {
         <span class="app__logo app__logo--triangle">&triangle;</span>
         <span class="app__logo app__logo--cursor"></span>
       </a>
-
-      <span class="app__message" data-message></span>
     </header>
 
     <main class="app__content" data-scope="content"><div class="playlist">
@@ -186,6 +183,8 @@ body {
 </main>
 
     <footer class="app__footer" data-scope="footer">
+      <span class="app__message" data-message></span>
+
       <span class="copywright">
         © 2023, fnhipster
       </span>
@@ -195,64 +194,45 @@ body {
     <script type="module">
       const initializers = [];
 initializers.push(function init() {
-  // Message
-  const binary = [
-    '01010100',
-    '01110010',
-    '01110101',
-    '01100101',
-    '00100000',
-    '01001100',
-    '01101111',
-    '01110110',
-    '01100101',
-    '00100000',
-    '01010111',
-    '01101001',
-    '01101100',
-    '01101100',
-    '00100000',
-    '01000110',
-    '01101001',
-    '01101110',
-    '01100100',
-    '00100000',
-    '01011001',
-    '01101111',
-    '01110101',
-    '00100000',
-    '01101001',
-    '01101110',
-    '00100000',
-    '01110100',
-    '01101000',
-    '01100101',
-    '00100000',
-    '01000101',
-    '01101110',
-    '01100100',
-    '❤',
-  ];
+  loadBinaryMessage();
 
-  const $message = document.querySelector('[data-message]');
-  let current = Number(localStorage.getItem('message-index')) ?? 0;
-  $message.textContent = binary[current];
+  function loadBinaryMessage() {
+    const string = 'True Love Will Find You in the End.';
 
-  const interval = setInterval(() => {
+    const binary = string
+      .split('')
+      .map((char) => char.charCodeAt(0).toString(2).padStart(8, '0'));
+
+    const $message = document.querySelector('[data-message]');
+
+    let play = true;
+
+    $message.addEventListener('mouseenter', () => {
+      play = false;
+    });
+
+    $message.addEventListener('mouseleave', () => {
+      play = true;
+    });
+
+    let current = Number(localStorage.getItem('message-index')) ?? 0;
+
     $message.textContent = binary[current];
 
-    current++;
+    setInterval(() => {
+      if (!play) return;
 
-    if (current === binary.length) {
-      current = 0;
-    }
+      $message.textContent = binary[current];
 
-    localStorage.setItem('message-index', current);
+      current++;
 
-    if (current === binary.length) {
-      clearInterval(interval);
-    }
-  }, 3000);
+      if (current === binary.length) {
+        current = 0;
+      }
+
+      localStorage.setItem('message-index', current);
+    }, 2000);
+  }
 }
 );
 const scope = document.querySelectorAll(`[data-scope]`)[0];
@@ -291,6 +271,13 @@ initializers?.forEach?.((_init) => {
 });
 
     </script>
-    
+
+     
+
+    <script
+      async
+      src="https://use.typekit.net/joe8rol.js"
+      onload="Typekit.load({ kitId: 'joe8rol'});"
+    ></script>
   </body>
 </html>
