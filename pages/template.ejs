@@ -11,7 +11,8 @@
 
   <link rel="stylesheet" href="/assets/styles/base.css" />
 
-  <%# Inject page styles %> <% if (__styles) { %>
+  <%# Inject page styles %>
+  <% if (__styles) { %>
   <style>
     <%- __styles %>
   </style>
@@ -20,9 +21,9 @@
 
 <body>
   <header class="app__header" data-scope="header">
-    <a href="/">
-      <span class="app__logo app__logo--triangle">&triangle;</span>
-      <span class="app__logo app__logo--cursor"></span>
+    <a class="app__logo" href="/">
+      <span class="app__logo__triangle">&triangle;</span>
+      <span class="app__logo__cursor">_</span>
     </a>
   </header>
 
@@ -36,7 +37,8 @@
     </span>
   </footer>
 
-  <%# Inject page scripts %> <% if (__scripts) { %>
+  <%# Inject page scripts %>
+  <% if (__scripts) { %>
   <script type="module">
     <%- __scripts %>
   </script>

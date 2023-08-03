@@ -11,55 +11,46 @@
 
   <link rel="stylesheet" href="/assets/styles/base.css" />
 
-   
+  
+  
   <style>
-    /* @import url('https://use.typekit.net/joe8rol.css'); */
-
-:root {
-  --color-background: #111;
-  --color-text: #ffa500;
-}
-
-/* Layout */
-body {
-  padding-top: var(--margin);
-  padding-bottom: var(--margin);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
-  min-height: 100vh;
-  display: grid;
-  grid-auto-rows: auto 1fr auto;
-}
-
-.app__header {
-  display: grid;
-  grid-template-columns: 1fr auto;
+    .app__header {
   align-items: center;
 }
 
 /* Logo */
 .app__logo {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 3rem;
   text-shadow: 0 0 3em currentColor;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   font-weight: bold;
   transition: text-shadow 0.3s ease-in-out;
 }
 
-.app__logo:hover {
+a.app__logo {
+  text-decoration: none;
+}
+
+a.app__logo:hover {
+  outline: none;
+}
+
+a.app__logo:hover {
   text-shadow: 0 0 1em currentColor;
 }
 
-.app__logo--triangle {
+.app__logo__triangle {
+  display: inline;
   position: relative;
   animation: shift 4s ease-in-out infinite alternate;
   transform: skewX(0deg);
   z-index: 1;
 }
 
-.app__logo--cursor::after {
-  content: '_';
+.app__logo__cursor {
+  display: inline;
   animation: blink 1s ease-in-out infinite alternate;
 }
 
@@ -81,9 +72,10 @@ body {
 
 .app__content > h1:first-of-type + p:has(+ hr) {
   font-family: 'lores-12', sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-style: normal;
   font-weight: 400;
+  line-height: 1.2;
   margin: 0;
 }
 
@@ -165,9 +157,9 @@ body {
 
 <body>
   <header class="app__header" data-scope="header">
-    <a href="/">
-      <span class="app__logo app__logo--triangle">&triangle;</span>
-      <span class="app__logo app__logo--cursor"></span>
+    <a class="app__logo" href="/">
+      <span class="app__logo__triangle">&triangle;</span>
+      <span class="app__logo__cursor">_</span>
     </a>
   </header>
 
@@ -192,7 +184,8 @@ body {
     </span>
   </footer>
 
-   
+  
+  
   <script type="module">
     const initializers = [];
 initializers.push(function init() {
