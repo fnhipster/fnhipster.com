@@ -391,7 +391,6 @@ body {
   min-height: 100vh;
   padding: var(--margin);
   width: 100%;
-  overflow: visible;
 }
 
 *::selection {
@@ -405,7 +404,7 @@ a {
 
 a:hover,
 a:focus {
-  outline: 0.1rem solid currentColor;
+  outline: 0.1em solid currentColor;
   text-decoration: none;
   outline-offset: 0.15em;
 }
