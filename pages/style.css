@@ -71,6 +71,24 @@ a.app__logo:hover {
   width: 100%;
 }
 
+/* Images */
+.app__content__img {
+  position: relative;
+}
+
+.app__content__img > img {
+  position: relative;
+  z-index: 1;
+}
+
+.app__content__img > img + img {
+  position: absolute;
+  left: 0;
+  z-index: 0;
+  filter: blur(20px);
+  opacity: 0.75;
+}
+
 /* Footer */
 .app__footer {
   font-family: 'lores-12', sans-serif;

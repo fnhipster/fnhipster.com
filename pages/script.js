@@ -1,5 +1,24 @@
 function init() {
+  addImageGlow();
   loadBinaryMessage();
+
+  function addImageGlow() {
+    const $images = document.querySelectorAll('.app__content img');
+
+    $images.forEach(($image) => {
+      const $original = $image.cloneNode(true);
+
+      const $glow = $image.cloneNode(true);
+      $glow.setAttribute('aria-hidden', true);
+
+      const $wrapper = document.createElement('span');
+      $wrapper.classList.add('app__content__img');
+      $wrapper.appendChild($original);
+      $wrapper.appendChild($glow);
+
+      $image.replaceWith($wrapper);
+    });
+  }
 
   function loadBinaryMessage() {
     const string = 'True Love Will Find You in the End.';
