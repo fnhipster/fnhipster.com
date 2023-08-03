@@ -26,9 +26,10 @@ body {
 /* Logo */
 .app__logo {
   font-size: 3rem;
-  text-shadow: 0 0 1em currentColor;
+  text-shadow: 0 0 3em currentColor;
   display: inline-block;
   font-weight: bold;
+  transition: text-shadow 0.3s ease-in-out;
 }
 
 .app__logo:hover {

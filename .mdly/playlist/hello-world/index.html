@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="description" content="Test" />
-    <link rel="preconnect" href="https://use.typekit.net/" crossorigin />
-    <link rel="icon" href="/assets/favicon.svg" />
 
-    <link rel="stylesheet" href="/assets/styles/base.css" />
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Test" />
+  <link rel="preconnect" href="https://use.typekit.net/" crossorigin />
+  <link rel="icon" href="/assets/favicon.svg" />
 
-     
-    <style>
-      /* @import url('https://use.typekit.net/joe8rol.css'); */
+  <link rel="stylesheet" href="/assets/styles/base.css" />
+
+   
+  <style>
+    /* @import url('https://use.typekit.net/joe8rol.css'); */
 
 :root {
   --color-background: #111;
@@ -40,13 +41,14 @@ body {
 /* Logo */
 .app__logo {
   font-size: 3rem;
-  text-shadow: 0 0 1em currentColor;
+  text-shadow: 0 0 3em currentColor;
   display: inline-block;
   font-weight: bold;
+  transition: text-shadow 0.3s ease-in-out;
 }
 
 .app__logo:hover {
-  text-shadow: 0 0 2em currentColor;
+  text-shadow: 0 0 1em currentColor;
 }
 
 .app__logo--triangle {
@@ -70,7 +72,7 @@ body {
 /* Page Heading */
 .app__content > h1:first-of-type {
   font-family: 'bd-console-variable', sans-serif;
-  font-size: 8rem;
+  font-size: clamp(2rem, 10vw, 8rem);
   font-variation-settings: 'GAME' 100;
   line-height: 0.7;
   margin: 0;
@@ -157,19 +159,19 @@ body {
   --color-text: red;
 }
 
-    </style>
-    
-  </head>
+  </style>
+  
+</head>
 
-  <body>
-    <header class="app__header" data-scope="header">
-      <a href="/">
-        <span class="app__logo app__logo--triangle">&triangle;</span>
-        <span class="app__logo app__logo--cursor"></span>
-      </a>
-    </header>
+<body>
+  <header class="app__header" data-scope="header">
+    <a href="/">
+      <span class="app__logo app__logo--triangle">&triangle;</span>
+      <span class="app__logo app__logo--cursor"></span>
+    </a>
+  </header>
 
-    <main class="app__content" data-scope="content"><div class="playlist">
+  <main class="app__content" data-scope="content"><div class="playlist">
   <h1 class="playlist__heading">Hello World</h1>
 
   <ol class="playlist__songs">
@@ -182,17 +184,17 @@ body {
 </div>
 </main>
 
-    <footer class="app__footer" data-scope="footer">
-      <span class="app__message" data-message></span>
+  <footer class="app__footer" data-scope="footer">
+    <span class="app__message" data-message></span>
 
-      <span class="copywright">
-        © 2023, fnhipster
-      </span>
-    </footer>
+    <span class="copywright">
+      © 2023, fnhipster
+    </span>
+  </footer>
 
-     
-    <script type="module">
-      const initializers = [];
+   
+  <script type="module">
+    const initializers = [];
 initializers.push(function init() {
   loadBinaryMessage();
 
@@ -270,14 +272,12 @@ initializers?.forEach?.((_init) => {
   _init?.(scope, { createState });
 });
 
-    </script>
+  </script>
 
-     
+  
 
-    <script
-      async
-      src="https://use.typekit.net/joe8rol.js"
-      onload="Typekit.load({ kitId: 'joe8rol'});"
-    ></script>
-  </body>
+  
+  <script async src="https://use.typekit.net/joe8rol.js" onload="Typekit.load({ kitId: 'joe8rol'});"></script>
+</body>
+
 </html>
