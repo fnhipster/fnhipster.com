@@ -90,19 +90,21 @@ a.app__logo:hover {
 /* Images */
 .app__content__img {
   position: relative;
+  display: inline-block;
 }
 
-.app__content__img > img {
+.app__content__img > img:first-of-type {
   position: relative;
   z-index: 1;
 }
 
-.app__content__img > img + img {
+.app__content__img > img:last-of-type {
   position: absolute;
+  display: block;
+  top: 0;
   left: 0;
-  z-index: 0;
-  filter: blur(20px);
-  opacity: 0.75;
+  filter: blur(15px) opacity(0.75);
+  transform: translate3d(0, 0, 0);
 }
 
 /* Footer */
@@ -208,7 +210,7 @@ a.app__logo:hover {
 <p>Here&#39;s an example: <a href="https://www.openai.com">OpenAI</a>.</p>
 <h2>Images</h2>
 <p>You can embed images using the following syntax: <code>![alt text](image URL)</code>.</p>
-<p><img src="/assets/placeholder.960x300.webp" srcset="/assets/placeholder.480x150.webp 480w, /assets/placeholder.640x200.webp 800w, /assets/placeholder.960x300.webp 1200w" alt="Lazy Image" title="" width="960" height="300" loading="lazy" /></p>
+<p><img src="/assets/placeholder.600x300.webp" srcset="/assets/placeholder.300x150.webp 480w, /assets/placeholder.400x200.webp 800w, /assets/placeholder.600x300.webp 1200w" alt="Lazy Image" title="" width="600" height="300" loading="lazy" /></p>
 <h2>Blockquotes</h2>
 <blockquote>
 <p>Markdown is a lightweight markup language for creating formatted text using a plain-text editor.</p>

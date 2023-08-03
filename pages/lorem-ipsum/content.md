@@ -52,7 +52,7 @@ Here's an example: [OpenAI](https://www.openai.com).
 
 You can embed images using the following syntax: `![alt text](image URL)`.
 
-![Lazy Image](/assets/placeholder.jpg?width=960&height=300&lazy=true)
+![Lazy Image](/assets/placeholder.jpg?width=600&height=300&lazy=true)
 
 ## Blockquotes
 

@@ -74,19 +74,21 @@ a.app__logo:hover {
 /* Images */
 .app__content__img {
   position: relative;
+  display: inline-block;
 }
 
-.app__content__img > img {
+.app__content__img > img:first-of-type {
   position: relative;
   z-index: 1;
 }
 
-.app__content__img > img + img {
+.app__content__img > img:last-of-type {
   position: absolute;
+  display: block;
+  top: 0;
   left: 0;
-  z-index: 0;
-  filter: blur(20px);
-  opacity: 0.75;
+  filter: blur(15px) opacity(0.75);
+  transform: translate3d(0, 0, 0);
 }
 
 /* Footer */
