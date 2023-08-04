@@ -1,2 +1,3 @@
-- [Lorem Ipsum](/lorem-ipsum/)
-- [Playlist](/playlist/hello-world/)
+- [Hello World (Haiku) ✓](/haiku/hello-world)
+- [0110 (Playlist)](/playlist/0110/)
+- [Lorem Ipsum (Post)](/lorem-ipsum/)
