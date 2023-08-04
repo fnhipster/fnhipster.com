@@ -87,7 +87,7 @@ a.app__logo:hover {
   display: block;
   top: 0;
   left: 0;
-  filter: blur(15px) opacity(0.75);
+  filter: blur(20px) opacity(0.4);
   transform: translate3d(0, 0, 0);
 }
 
