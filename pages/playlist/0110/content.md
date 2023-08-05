@@ -1,4 +1,6 @@
-# 0110
+# DO 10 I = 1, 10
+
+![Image](/playlist/0110/assets/cover.png?width=960&height=960)
 
 - Airbag (OK Computer)
 - 15 Step (In Rainbows)

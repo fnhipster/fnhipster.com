@@ -6,11 +6,14 @@ function init() {
     const $images = document.querySelectorAll('.app__content img');
 
     $images.forEach(($image) => {
+      // Original
       const $original = $image.cloneNode(true);
 
+      // Glow backdrop
       const $glow = $image.cloneNode(true);
       $glow.setAttribute('aria-hidden', true);
 
+      // Add glow
       const $wrapper = document.createElement('span');
       $wrapper.classList.add('app__content__img');
       $wrapper.appendChild($original);
@@ -29,20 +32,13 @@ function init() {
 
     const $message = document.querySelector('[data-message]');
 
-    let play = true;
-
-    $message.addEventListener('mouseenter', () => {
-      play = false;
-    });
-
-    $message.addEventListener('mouseleave', () => {
-      play = true;
-    });
+    let play = false;
 
     let current = Number(localStorage.getItem('message-index')) ?? 0;
 
     $message.textContent = binary[current];
 
+    // Play message
     setInterval(() => {
       if (!play) return;
 
@@ -56,5 +52,20 @@ function init() {
 
       localStorage.setItem('message-index', current);
     }, 2000);
+
+    // Only play when if in view
+    new IntersectionObserver((entries) => {
+      play = entries[0].isIntersecting;
+    }).observe($message);
+
+    // Pause when hovered
+    $message.addEventListener('mouseenter', () => {
+      play = false;
+    });
+
+    // Resume when not hovered
+    $message.addEventListener('mouseleave', () => {
+      play = true;
+    });
   }
 }

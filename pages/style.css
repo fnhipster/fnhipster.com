@@ -4,25 +4,17 @@
 
 /* Logo */
 .app__logo {
+  position: relative;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 3rem;
   text-shadow: 0 0 3em currentColor;
   display: inline-flex;
   align-items: center;
   font-weight: bold;
-  transition: text-shadow 0.3s ease-in-out;
 }
 
 a.app__logo {
   text-decoration: none;
-}
-
-a.app__logo:hover {
-  outline: none;
-}
-
-a.app__logo:hover {
-  text-shadow: 0 0 1em currentColor;
 }
 
 .app__logo__triangle {
@@ -39,23 +31,22 @@ a.app__logo:hover {
 }
 
 .app__message {
-  font-family: 'lores-12', sans-serif;
+  font-family: var(--font-family-heading);
   font-size: 1.3rem;
   font-style: normal;
 }
 
 /* Page Heading */
 .app__content > h1:first-of-type {
-  font-family: 'bd-console-variable', sans-serif;
+  font-family: var(--font-family-heading);
   font-size: clamp(2rem, 10vw, 8rem);
-  font-variation-settings: 'GAME' 100;
   line-height: 0.7;
   margin: 0;
   color: var(--color-text);
 }
 
 .app__content > h1:first-of-type + p:has(+ hr) {
-  font-family: 'lores-12', sans-serif;
+  font-family: var(--font-family-heading);
   font-style: normal;
   font-weight: 400;
   line-height: 1.2;
@@ -93,7 +84,7 @@ a.app__logo:hover {
 
 /* Footer */
 .app__footer {
-  font-family: 'lores-12', sans-serif;
+  font-family: var(--font-family-heading);
   font-size: 1.3rem;
   font-style: normal;
   font-weight: 400;

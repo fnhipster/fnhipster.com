@@ -6,9 +6,9 @@
   <title>Lorem Ipsum</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="Under construction" />
-  <link rel="preconnect" href="https://use.typekit.net/" crossorigin />
   <link rel="icon" href="/assets/favicon.svg" />
 
+  <link rel="stylesheet" href="/assets/styles/normalize.css" />
   <link rel="stylesheet" href="/assets/styles/base.css" />
 
   
@@ -20,25 +20,17 @@
 
 /* Logo */
 .app__logo {
+  position: relative;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 3rem;
   text-shadow: 0 0 3em currentColor;
   display: inline-flex;
   align-items: center;
   font-weight: bold;
-  transition: text-shadow 0.3s ease-in-out;
 }
 
 a.app__logo {
   text-decoration: none;
-}
-
-a.app__logo:hover {
-  outline: none;
-}
-
-a.app__logo:hover {
-  text-shadow: 0 0 1em currentColor;
 }
 
 .app__logo__triangle {
@@ -55,23 +47,22 @@ a.app__logo:hover {
 }
 
 .app__message {
-  font-family: 'lores-12', sans-serif;
+  font-family: var(--font-family-heading);
   font-size: 1.3rem;
   font-style: normal;
 }
 
 /* Page Heading */
 .app__content > h1:first-of-type {
-  font-family: 'bd-console-variable', sans-serif;
+  font-family: var(--font-family-heading);
   font-size: clamp(2rem, 10vw, 8rem);
-  font-variation-settings: 'GAME' 100;
   line-height: 0.7;
   margin: 0;
   color: var(--color-text);
 }
 
 .app__content > h1:first-of-type + p:has(+ hr) {
-  font-family: 'lores-12', sans-serif;
+  font-family: var(--font-family-heading);
   font-style: normal;
   font-weight: 400;
   line-height: 1.2;
@@ -109,7 +100,7 @@ a.app__logo:hover {
 
 /* Footer */
 .app__footer {
-  font-family: 'lores-12', sans-serif;
+  font-family: var(--font-family-heading);
   font-size: 1.3rem;
   font-style: normal;
   font-weight: 400;
@@ -241,11 +232,14 @@ initializers.push(function init() {
     const $images = document.querySelectorAll('.app__content img');
 
     $images.forEach(($image) => {
+      // Original
       const $original = $image.cloneNode(true);
 
+      // Glow backdrop
       const $glow = $image.cloneNode(true);
       $glow.setAttribute('aria-hidden', true);
 
+      // Add glow
       const $wrapper = document.createElement('span');
       $wrapper.classList.add('app__content__img');
       $wrapper.appendChild($original);
@@ -264,20 +258,13 @@ initializers.push(function init() {
 
     const $message = document.querySelector('[data-message]');
 
-    let play = true;
-
-    $message.addEventListener('mouseenter', () => {
-      play = false;
-    });
-
-    $message.addEventListener('mouseleave', () => {
-      play = true;
-    });
+    let play = false;
 
     let current = Number(localStorage.getItem('message-index')) ?? 0;
 
     $message.textContent = binary[current];
 
+    // Play message
     setInterval(() => {
       if (!play) return;
 
@@ -291,6 +278,21 @@ initializers.push(function init() {
 
       localStorage.setItem('message-index', current);
     }, 2000);
+
+    // Only play when if in view
+    new IntersectionObserver((entries) => {
+      play = entries[0].isIntersecting;
+    }).observe($message);
+
+    // Pause when hovered
+    $message.addEventListener('mouseenter', () => {
+      play = false;
+    });
+
+    // Resume when not hovered
+    $message.addEventListener('mouseleave', () => {
+      play = true;
+    });
   }
 }
 );
@@ -332,9 +334,6 @@ initializers?.forEach?.((_init) => {
   </script>
 
   
-
-  
-  <script async src="https://use.typekit.net/joe8rol.js" onload="Typekit.load({ kitId: 'joe8rol'});"></script>
 </body>
 
 </html>

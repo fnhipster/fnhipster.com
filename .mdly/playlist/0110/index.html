@@ -20,25 +20,17 @@
 
 /* Logo */
 .app__logo {
+  position: relative;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 3rem;
   text-shadow: 0 0 3em currentColor;
   display: inline-flex;
   align-items: center;
   font-weight: bold;
-  transition: text-shadow 0.3s ease-in-out;
 }
 
 a.app__logo {
   text-decoration: none;
-}
-
-a.app__logo:hover {
-  outline: none;
-}
-
-a.app__logo:hover {
-  text-shadow: 0 0 1em currentColor;
 }
 
 .app__logo__triangle {
@@ -179,7 +171,8 @@ a.app__logo:hover {
 
   <main class="app__content" data-scope="content"><div class="playlist">
   <div class="playlist__content">
-    <h1>0110</h1>
+    <h1>DO 10 I = 1, 10</h1>
+<p><img src="/playlist/0110/assets/cover.960x960.webp" srcset="/playlist/0110/assets/cover.480x480.webp 480w, /playlist/0110/assets/cover.640x640.webp 800w, /playlist/0110/assets/cover.960x960.webp 1200w" alt="Image" title="" width="960" height="960" /></p>
 <ul>
 <li>Airbag (OK Computer)</li>
 <li>15 Step (In Rainbows)</li>
@@ -228,11 +221,14 @@ initializers.push(function init() {
     const $images = document.querySelectorAll('.app__content img');
 
     $images.forEach(($image) => {
+      // Original
       const $original = $image.cloneNode(true);
 
+      // Glow backdrop
       const $glow = $image.cloneNode(true);
       $glow.setAttribute('aria-hidden', true);
 
+      // Add glow
       const $wrapper = document.createElement('span');
       $wrapper.classList.add('app__content__img');
       $wrapper.appendChild($original);
@@ -251,20 +247,13 @@ initializers.push(function init() {
 
     const $message = document.querySelector('[data-message]');
 
-    let play = true;
-
-    $message.addEventListener('mouseenter', () => {
-      play = false;
-    });
-
-    $message.addEventListener('mouseleave', () => {
-      play = true;
-    });
+    let play = false;
 
     let current = Number(localStorage.getItem('message-index')) ?? 0;
 
     $message.textContent = binary[current];
 
+    // Play message
     setInterval(() => {
       if (!play) return;
 
@@ -278,6 +267,21 @@ initializers.push(function init() {
 
       localStorage.setItem('message-index', current);
     }, 2000);
+
+    // Only play when if in view
+    new IntersectionObserver((entries) => {
+      play = entries[0].isIntersecting;
+    }).observe($message);
+
+    // Pause when hovered
+    $message.addEventListener('mouseenter', () => {
+      play = false;
+    });
+
+    // Resume when not hovered
+    $message.addEventListener('mouseleave', () => {
+      play = true;
+    });
   }
 }
 );
