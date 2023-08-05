@@ -8,8 +8,9 @@
   <meta name="description" content="This is the home page." />
   <link rel="icon" href="/assets/favicon.svg" />
 
-  <link rel="stylesheet" href="/assets/styles/normalize.css" />
-  <link rel="stylesheet" href="/assets/styles/base.css" />
+  <!-- Load async stylesheets async -->
+  <link rel="preload" href="/assets/styles/normalize.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <link rel="preload" href="/assets/styles/base.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
 
   
   
@@ -17,17 +18,20 @@
     /* Fonts */
 @font-face {
   font-family: 'Noto Sans Mono';
+  font-display: swap;
   src: url('/assets/fonts/NotoSansMono-Regular.woff2');
 }
 
 @font-face {
   font-family: 'Noto Sans Mono';
+  font-display: swap;
   src: url('/assets/fonts/NotoSansMono-Bold.woff2');
   font-weight: 600;
 }
 
 @font-face {
   font-family: 'VT323';
+  font-display: swap;
   src: url('/assets/fonts/VT323-Regular.woff2');
 }
 

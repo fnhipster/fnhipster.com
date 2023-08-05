@@ -8,8 +8,9 @@
   <meta name="description" content="<%= meta.description %>" />
   <link rel="icon" href="/assets/favicon.svg" />
 
-  <link rel="stylesheet" href="/assets/styles/normalize.css" />
-  <link rel="stylesheet" href="/assets/styles/base.css" />
+  <!-- Load async stylesheets async -->
+  <link rel="preload" href="/assets/styles/normalize.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <link rel="preload" href="/assets/styles/base.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
 
   <%# Inject page styles %>
   <% if (__styles) { %>
