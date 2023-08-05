@@ -1,6 +1,7 @@
 :root {
   --color-text: #e79f2f;
-  --color-background: radial-gradient(#5e039f, #430173);
+  --color-background: #430173;
+  --background: radial-gradient(#5e039f, var(--color-background));
 }
 
 .app__content {

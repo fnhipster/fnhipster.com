@@ -23,6 +23,7 @@
   /* Colors */
   --color-background: #111;
   --color-text: #ffa500;
+  --background: var(--color-background);
 
   /* Typography */
   --font-family: 'Noto Sans Mono', monospace;
@@ -46,7 +47,7 @@
 
 html {
   font-size: 62.5%;
-  background: var(--color-background);
+  background: var(--background);
   color: var(--color-text);
 }
 
