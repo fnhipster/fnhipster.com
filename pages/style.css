@@ -2,20 +2,25 @@
 @font-face {
   font-family: 'Noto Sans Mono';
   font-display: swap;
-  src: url('/assets/fonts/NotoSansMono-Regular.woff2');
+  src: url('/assets/fonts/noto-sans-mono-regular.woff2');
+  font-style: normal;
+  font-weight: 400;
 }
 
 @font-face {
-  font-family: 'Noto Sans Mono';
+  font-family: 'Handjet';
   font-display: swap;
-  src: url('/assets/fonts/NotoSansMono-Bold.woff2');
-  font-weight: 600;
+  src: url('/assets/fonts/handjet.woff2');
+  font-style: normal;
+  font-weight: 400;
 }
 
 @font-face {
-  font-family: 'VT323';
+  font-family: 'Press Start 2P';
   font-display: swap;
-  src: url('/assets/fonts/VT323-Regular.woff2');
+  src: url('/assets/fonts/press-start-2p-regular.woff2');
+  font-style: normal;
+  font-weight: 400;
 }
 
 /* Variables */
@@ -27,7 +32,8 @@
 
   /* Typography */
   --font-family: 'Noto Sans Mono', monospace;
-  --font-family-heading: 'VT323', monospace;
+  --font-family-heading: 'Press Start 2P', monospace;
+  --font-family-accent: 'Handjet', monospace;
 
   /* Spacing */
   --spacing-sm: 1rem;
@@ -91,32 +97,31 @@ h6 {
   font-family: var(--font-family-heading);
   font-weight: 400;
   line-height: 0.8;
-  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
 h1 {
-  font-size: 4.8rem;
+  font-size: 3rem;
 }
 
 h2 {
-  font-size: 3.6rem;
+  font-size: 2.6rem;
 }
 
 h3 {
-  font-size: 2.8rem;
+  font-size: 2.2rem;
 }
 
 h4 {
-  font-size: 2.4rem;
+  font-size: 1.8rem;
 }
 
 h5 {
-  font-size: 2rem;
+  font-size: 1.6rem;
 }
 
 h6 {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 
 img,
@@ -178,7 +183,7 @@ a.app__logo {
 }
 
 .app__message {
-  font-family: var(--font-family-heading);
+  font-family: var(--font-family-accent);
   font-style: normal;
   font-weight: 400;
 }
@@ -207,7 +212,7 @@ a.app__logo {
 .app__footer {
   align-items: center;
   display: grid;
-  font-family: var(--font-family-heading);
+  font-family: var(--font-family-accent);
   font-style: normal;
   font-weight: 400;
   grid-template-columns: 1fr auto;
