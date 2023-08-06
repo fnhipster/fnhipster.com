@@ -214,6 +214,7 @@ a.app__logo {
   display: grid;
   font-family: var(--font-family-accent);
   font-style: normal;
+  font-size: 1.5rem;
   font-weight: 400;
   grid-template-columns: 1fr auto;
   padding-top: var(--margin);
