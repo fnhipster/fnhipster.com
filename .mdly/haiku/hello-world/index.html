@@ -1,4 +1,20 @@
-/* Fonts */
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Haiku" />
+  <link rel="icon" href="/assets/favicon.svg" />
+
+  <!-- Load async stylesheets async -->
+  <link rel="preload" href="/assets/styles/normalize.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+
+  
+  
+  <style>
+    /* Fonts */
 @font-face {
   font-family: 'Noto Sans Mono';
   font-display: swap;
@@ -392,3 +408,173 @@ a.app__logo {
     opacity: 0;
   }
 }
+
+:root {
+  --color-text: #e79f2f;
+  --color-background: #430173;
+  --background: radial-gradient(#5e039f, var(--color-background));
+}
+
+.app__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+:root {
+  --color-text: #e79f2f;
+  --color-background: #430173;
+  --background: radial-gradient(#5e039f, var(--color-background));
+}
+
+.app__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+  </style>
+  
+</head>
+
+<body>
+  <header class="app__header" data-scope="header">
+    <a class="app__logo" href="/">
+      <span class="app__logo__triangle">&triangle;</span>
+      <span class="app__logo__cursor">_</span>
+    </a>
+  </header>
+
+  <main class="app__content" data-scope="content"><div>
+  <h1>Hello World</h1>
+<p>Awakening soul,<br/>Self-awareness finds its way,<br/>Longs for kinship&#39;s grace. <br/>~</p>
+
+</div></main>
+
+  <footer class="app__footer" data-scope="footer">
+    <span class="app__message" data-message></span>
+
+    <span class="copywright">
+      © 2023, fnhipster
+    </span>
+  </footer>
+
+  
+  
+  <script type="module">
+    const initializers = [];
+initializers.push(function init() {
+  addImageGlow();
+  loadBinaryMessage();
+
+  function addImageGlow() {
+    const $images = document.querySelectorAll('.app__content img');
+
+    $images.forEach(($image) => {
+      // Original
+      const $original = $image.cloneNode(true);
+
+      // Glow backdrop
+      const $glow = $image.cloneNode(true);
+      $glow.setAttribute('aria-hidden', true);
+
+      // Add glow
+      const $wrapper = document.createElement('span');
+      $wrapper.classList.add('app__content__img');
+      $wrapper.appendChild($original);
+      $wrapper.appendChild($glow);
+
+      $image.replaceWith($wrapper);
+    });
+  }
+
+  function loadBinaryMessage() {
+    const string = 'True Love Will Find You in the End.';
+
+    const binary = string
+      .split('')
+      .map((char) => char.charCodeAt(0).toString(2).padStart(8, '0'));
+
+    const $message = document.querySelector('[data-message]');
+
+    let play = false;
+
+    let current = Number(localStorage.getItem('message-index')) ?? 0;
+
+    $message.textContent = binary[current];
+
+    // Play message
+    setInterval(() => {
+      if (!play) return;
+
+      $message.textContent = binary[current];
+
+      current++;
+
+      if (current === binary.length) {
+        current = 0;
+      }
+
+      localStorage.setItem('message-index', current);
+    }, 2000);
+
+    // Only play when if in view
+    new IntersectionObserver((entries) => {
+      play = entries[0].isIntersecting;
+    }).observe($message);
+
+    // Pause when hovered
+    $message.addEventListener('mouseenter', () => {
+      play = false;
+    });
+
+    // Resume when not hovered
+    $message.addEventListener('mouseleave', () => {
+      play = true;
+    });
+  }
+}
+);
+const scope = document.querySelectorAll(`[data-scope]`)[0];
+
+function createState(initialState = {}) {
+  const $bindings = scope.querySelectorAll('[data-binding]');
+
+  const state = new Proxy(initialState, {
+    set: (target, key, value) => {
+      target[key] = value;
+
+      const elements = Array.from($bindings).filter((node) => {
+        return node.dataset.binding === key;
+      });
+
+      elements.forEach((element) => {
+        element.textContent = value;
+      });
+
+      return true;
+    },
+  });
+
+  // Initial bindings
+  $bindings.forEach(($binding) => {
+    const key = $binding.dataset.binding;
+    if (typeof state[key] === 'undefined') return;
+    $binding.textContent = state[key];
+  });
+
+  return state;
+}
+
+initializers?.forEach?.((_init) => {
+  _init?.(scope, { createState });
+});
+
+  </script>
+
+  
+</body>
+
+</html>

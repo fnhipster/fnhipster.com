@@ -1,0 +1,12 @@
+:root {
+  --color-text: #e79f2f;
+  --color-background: #430173;
+  --background: radial-gradient(#5e039f, var(--color-background));
+}
+
+.app__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

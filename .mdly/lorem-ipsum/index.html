@@ -6,39 +6,183 @@
   <title>Lorem Ipsum</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="Under construction" />
-  <link rel="preconnect" href="https://use.typekit.net/" crossorigin />
   <link rel="icon" href="/assets/favicon.svg" />
 
-  <link rel="stylesheet" href="/assets/styles/base.css" />
+  <!-- Load async stylesheets async -->
+  <link rel="preload" href="/assets/styles/normalize.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
 
   
   
   <style>
-    .app__header {
+    /* Fonts */
+@font-face {
+  font-family: 'Noto Sans Mono';
+  font-display: swap;
+  src: url('/assets/fonts/noto-sans-mono-regular.woff2');
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Handjet';
+  font-display: swap;
+  src: url('/assets/fonts/handjet.woff2');
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Press Start 2P';
+  font-display: swap;
+  src: url('/assets/fonts/press-start-2p-regular.woff2');
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* Variables */
+:root {
+  /* Colors */
+  --color-background: #111;
+  --color-text: #ffa500;
+  --background: var(--color-background);
+
+  /* Typography */
+  --font-family: 'Noto Sans Mono', monospace;
+  --font-family-heading: 'Press Start 2P', monospace;
+  --font-family-accent: 'Handjet', monospace;
+
+  /* Spacing */
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+
+  /* Margin */
+  --margin: 2rem;
+}
+
+/* Globals */
+
+::selection {
+  background: var(--color-text);
+  color: var(--color-background);
+}
+
+html {
+  font-size: 62.5%;
+  background: var(--background);
+  color: var(--color-text);
+}
+
+body {
+  box-sizing: border-box;
+  display: grid;
+  font-family: var(--font-family);
+  font-size: 1.8rem;
+  grid-auto-rows: auto 1fr auto;
+  line-height: 1.5;
+  margin: 0 auto;
+  max-width: calc(100rem - (var(--margin) * 2));
+  min-height: 100vh;
+  padding: var(--margin);
+  width: 100%;
+}
+
+a,
+a:visited {
+  color: currentColor;
+}
+
+a:hover,
+a:focus {
+  outline: 0.2rem solid currentColor;
+  text-decoration: none;
+  outline-offset: 0.15em;
+}
+
+strong {
+  font-weight: 600;
+  text-shadow: 0 0 0.2rem currentColor;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-heading);
+  font-weight: 400;
+  line-height: 0.8;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.6rem;
+}
+
+h3 {
+  font-size: 2.2rem;
+}
+
+h4 {
+  font-size: 1.8rem;
+}
+
+h5 {
+  font-size: 1.6rem;
+}
+
+h6 {
+  font-size: 1.4rem;
+}
+
+img,
+video,
+iframe {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+hr {
+  border-color: var(--color-text);
+  border-style: solid;
+  border-width: 0.3rem;
+  max-width: 20rem;
+  display: inline-block;
+  width: 100%;
+  margin: 1em 0;
+}
+
+blockquote {
+  font-size: 1.2em;
+  line-height: 1.3;
+  font-style: italic;
+  margin: 0;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-left: 0.5em solid;
+}
+
+.app__header {
   align-items: center;
 }
 
 /* Logo */
 .app__logo {
+  align-items: center;
+  display: inline-flex;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 3rem;
-  text-shadow: 0 0 3em currentColor;
-  display: inline-flex;
-  align-items: center;
   font-weight: bold;
-  transition: text-shadow 0.3s ease-in-out;
+  position: relative;
+  text-shadow: 0 0 3em currentColor;
 }
 
 a.app__logo {
   text-decoration: none;
-}
-
-a.app__logo:hover {
-  outline: none;
-}
-
-a.app__logo:hover {
-  text-shadow: 0 0 1em currentColor;
 }
 
 .app__logo__triangle {
@@ -55,36 +199,9 @@ a.app__logo:hover {
 }
 
 .app__message {
-  font-family: 'lores-12', sans-serif;
-  font-size: 1.3rem;
-  font-style: normal;
-}
-
-/* Page Heading */
-.app__content > h1:first-of-type {
-  font-family: 'bd-console-variable', sans-serif;
-  font-size: clamp(2rem, 10vw, 8rem);
-  font-variation-settings: 'GAME' 100;
-  line-height: 0.7;
-  margin: 0;
-  color: var(--color-text);
-}
-
-.app__content > h1:first-of-type + p:has(+ hr) {
-  font-family: 'lores-12', sans-serif;
+  font-family: var(--font-family-accent);
   font-style: normal;
   font-weight: 400;
-  line-height: 1.2;
-  margin: 0;
-}
-
-.app__content > h1:first-of-type + p + hr {
-  border-color: var(--color-text);
-  border-style: solid;
-  border-width: 0.3rem;
-  max-width: 20rem;
-  display: inline-block;
-  width: 100%;
 }
 
 /* Images */
@@ -109,16 +226,143 @@ a.app__logo:hover {
 
 /* Footer */
 .app__footer {
-  font-family: 'lores-12', sans-serif;
-  font-size: 1.3rem;
+  align-items: center;
+  display: grid;
+  font-family: var(--font-family-accent);
   font-style: normal;
+  font-size: 1.5rem;
   font-weight: 400;
+  grid-template-columns: 1fr auto;
   padding-top: var(--margin);
   text-transform: uppercase;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
 }
+
+/** Code Blocks */
+.hljs {
+  display: block;
+  font-family: var(--font-family);
+  overflow-x: auto;
+  padding: var(--spacing-sm) var(--spacing-sm);
+}
+
+/*!
+  Theme: GitHub Dark
+  Description: Dark theme as seen on github.com
+  Author: github.com
+  Maintainer: @Hirse
+  Updated: 2021-05-15
+
+  Outdated base version: https://github.com/primer/github-syntax-dark
+  Current colors taken from GitHub's CSS
+*/
+
+.hljs {
+  color: #c9d1d9;
+  background: #0d1117;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-meta .hljs-keyword,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-variable.language_ {
+  /* prettylights-syntax-keyword */
+  color: #ff7b72;
+}
+
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.class_.inherited__,
+.hljs-title.function_ {
+  /* prettylights-syntax-entity */
+  color: #d2a8ff;
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-literal,
+.hljs-meta,
+.hljs-number,
+.hljs-operator,
+.hljs-variable,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-id {
+  /* prettylights-syntax-constant */
+  color: #79c0ff;
+}
+
+.hljs-regexp,
+.hljs-string,
+.hljs-meta .hljs-string {
+  /* prettylights-syntax-string */
+  color: #a5d6ff;
+}
+
+.hljs-built_in,
+.hljs-symbol {
+  /* prettylights-syntax-variable */
+  color: #ffa657;
+}
+
+.hljs-comment,
+.hljs-code,
+.hljs-formula {
+  /* prettylights-syntax-comment */
+  color: #8b949e;
+}
+
+.hljs-name,
+.hljs-quote,
+.hljs-selector-tag,
+.hljs-selector-pseudo {
+  /* prettylights-syntax-entity-tag */
+  color: #7ee787;
+}
+
+.hljs-subst {
+  /* prettylights-syntax-storage-modifier-import */
+  color: #c9d1d9;
+}
+
+.hljs-section {
+  /* prettylights-syntax-markup-heading */
+  color: #1f6feb;
+  font-weight: bold;
+}
+
+.hljs-bullet {
+  /* prettylights-syntax-markup-list */
+  color: #f2cc60;
+}
+
+.hljs-emphasis {
+  /* prettylights-syntax-markup-italic */
+  color: #c9d1d9;
+  font-style: italic;
+}
+
+.hljs-strong {
+  /* prettylights-syntax-markup-bold */
+  color: #c9d1d9;
+  font-weight: bold;
+}
+
+.hljs-addition {
+  /* prettylights-syntax-markup-inserted */
+  color: #aff5b4;
+  background-color: #033a16;
+}
+
+.hljs-deletion {
+  /* prettylights-syntax-markup-deleted */
+  color: #ffdcd7;
+  background-color: #67060c;
+}
+
+/* Animations */
 
 @keyframes shift {
   0%,
@@ -241,11 +485,14 @@ initializers.push(function init() {
     const $images = document.querySelectorAll('.app__content img');
 
     $images.forEach(($image) => {
+      // Original
       const $original = $image.cloneNode(true);
 
+      // Glow backdrop
       const $glow = $image.cloneNode(true);
       $glow.setAttribute('aria-hidden', true);
 
+      // Add glow
       const $wrapper = document.createElement('span');
       $wrapper.classList.add('app__content__img');
       $wrapper.appendChild($original);
@@ -264,20 +511,13 @@ initializers.push(function init() {
 
     const $message = document.querySelector('[data-message]');
 
-    let play = true;
-
-    $message.addEventListener('mouseenter', () => {
-      play = false;
-    });
-
-    $message.addEventListener('mouseleave', () => {
-      play = true;
-    });
+    let play = false;
 
     let current = Number(localStorage.getItem('message-index')) ?? 0;
 
     $message.textContent = binary[current];
 
+    // Play message
     setInterval(() => {
       if (!play) return;
 
@@ -291,6 +531,21 @@ initializers.push(function init() {
 
       localStorage.setItem('message-index', current);
     }, 2000);
+
+    // Only play when if in view
+    new IntersectionObserver((entries) => {
+      play = entries[0].isIntersecting;
+    }).observe($message);
+
+    // Pause when hovered
+    $message.addEventListener('mouseenter', () => {
+      play = false;
+    });
+
+    // Resume when not hovered
+    $message.addEventListener('mouseleave', () => {
+      play = true;
+    });
   }
 }
 );
@@ -332,9 +587,6 @@ initializers?.forEach?.((_init) => {
   </script>
 
   
-
-  
-  <script async src="https://use.typekit.net/joe8rol.js" onload="Typekit.load({ kitId: 'joe8rol'});"></script>
 </body>
 
 </html>
