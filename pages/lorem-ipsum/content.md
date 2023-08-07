@@ -4,7 +4,7 @@ This is an example of a Markdown document that includes various elements
 
 ---
 
-![Eager Image](/assets/placeholder.jpg?width=960&height=960)
+![Eager Image](/lorem-ipsum/assets/placeholder.jpg?width=960&height=960)
 
 # Heading 1
 
@@ -52,7 +52,7 @@ Here's an example: [OpenAI](https://www.openai.com).
 
 You can embed images using the following syntax: `![alt text](image URL)`.
 
-![Lazy Image](/assets/placeholder.jpg?width=600&height=300&lazy=true)
+![Lazy Image](/lorem-ipsum/assets/placeholder.jpg?width=600&height=300&lazy=true)
 
 ## Blockquotes
 

@@ -1,7 +1,7 @@
 {
     "tasks": {
-        "dev": "DEVELOPMENT=true deno run --allow-net --allow-read --allow-env --allow-write https://deno.land/x/mdly@0.1.2/start.ts",
-        "build": "deno run --allow-net --allow-read --allow-env --allow-write https://deno.land/x/mdly@0.1.2/build.ts",
-        "start": "deno run --allow-net --allow-read --allow-env --allow-write https://deno.land/x/mdly@0.1.2/start.ts"
+        "dev": "DEVELOPMENT=true deno run --allow-net --allow-read --allow-env --allow-write https://deno.land/x/mdly@0.2.0/start.ts",
+        "build": "deno run --allow-net --allow-read --allow-env --allow-write https://deno.land/x/mdly@0.2.0/build.ts",
+        "start": "deno run --allow-net --allow-read --allow-env --allow-write https://deno.land/x/mdly@0.2.0/start.ts"
     }
 }

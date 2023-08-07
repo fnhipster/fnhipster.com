@@ -1,2 +1,2 @@
 - [Lorem Ipsum (Markdown) ✓](/lorem-ipsum/)
-- [Hello World (Haiku) ✓](/haiku/hello-world)
+- [Hello World (Haiku) ✓](/haiku/hello-world/)
