@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-scope="app">
 
 <head>
   <meta charset="UTF-8" />
@@ -8,42 +8,31 @@
   <meta name="description" content="<%= meta.description %>" />
   <link rel="icon" href="/assets/favicon.svg" />
 
-  <!-- Load async stylesheets async -->
-  <link rel="preload" href="/assets/styles/normalize.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-
   <%# Inject page styles %>
-  <% if (__styles) { %>
-  <style>
-    <%- __styles %>
-  </style>
-  <% } %>
+  <%- __styles %>
 </head>
 
 <body>
-  <header class="app__header" data-scope="header">
+  <header class="app__header">
     <a class="app__logo" href="/">
       <span class="app__logo__triangle">&triangle;</span>
       <span class="app__logo__cursor">_</span>
     </a>
   </header>
 
-  <main class="app__content" data-scope="content"><%- __content %></main>
+  <main class="app__content">
+    <%- __content %>
+  </main>
 
-  <footer class="app__footer" data-scope="footer">
-    <span class="app__message" data-message></span>
+  <footer class="app__footer">
+    <span class="app__message" data-binding="binaryMessage"></span>
 
     <span class="copywright">
       © <%= new Date().getUTCFullYear() %>, fnhipster
     </span>
   </footer>
 
-  <%# Inject page scripts %>
-  <% if (__scripts) { %>
-  <script type="module">
-    <%- __scripts %>
-  </script>
-
-  <% } %>
+  <%- __scripts %>
 </body>
 
 </html>
